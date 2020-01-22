@@ -8,11 +8,10 @@ const SignUp = ({ toggleVisibility }) => {
 
     const handleSignUp = async () => {
         try {
-            debugger
-            const response = await firebase.auth().createUserWithEmailAndPassword(email, password)
-            console.log(response)
+            await firebase
+                .auth()
+                .createUserWithEmailAndPassword(email, password)
         } catch (err) {
-            console.log(err)
             setError(err.message)
         }
     }
@@ -21,16 +20,25 @@ const SignUp = ({ toggleVisibility }) => {
         <div>
             <h4>Sign Up</h4>
             {/* <form id='sign-up'> */}
-                <input type='text' placeholder='guitarguy69@gmail.com' onChange={e => setEmail(e.target.value)} />
-                <input type='password' onChange={e => setPassword(e.target.value)} />
-                {/* <button onSubmit={handleSignUp} form='sign-up'>Sign Up!</button> */}
-                <button onClick={handleSignUp}>Sign Up!</button>
+            <input
+                type="text"
+                placeholder="guitarguy69@gmail.com"
+                onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+                type="password"
+                onChange={(e) => setPassword(e.target.value)}
+            />
+            {/* <button onSubmit={handleSignUp} form='sign-up'>Sign Up!</button> */}
+            <button onClick={handleSignUp}>Sign Up!</button>
             {/* </form> */}
-            <div onClick={() => toggleVisibility()}>Already have an account?</div>
+            <div onClick={() => toggleVisibility()}>
+                Already have an account?
+            </div>
 
             <hr />
 
-            {error && <div>{error}</div> }
+            {error && <div>{error}</div>}
         </div>
     )
 }
