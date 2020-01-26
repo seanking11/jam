@@ -1,16 +1,18 @@
 import React, { useState } from 'react'
 import firebase from 'firebase/app'
 
-const SignUp = ({ toggleVisibility }) => {
+const SignUp = ({ toggleVisibility, history, setUser }) => {
     const [email, setEmail] = useState(null)
     const [password, setPassword] = useState(null)
     const [error, setError] = useState(null)
 
     const handleSignUp = async () => {
         try {
-            await firebase
+            const response = await firebase
                 .auth()
                 .createUserWithEmailAndPassword(email, password)
+            history.push('/songs')
+            setUser(response.user)
         } catch (err) {
             setError(err.message)
         }

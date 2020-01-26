@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -31,17 +31,35 @@ const TrackWrapper = styled.div`
     flex-direction: column;
 `
 
-const Track = ({ name: initialName, addNewTrack }) => {
-    const [name, setName] = useState(initialName)
+const Track = ({ id, addNewTrack }) => {
+    const [track, setTrack] = useState({})
+    const [name, setName] = useState('')
     const input = useRef(null)
+
+    useEffect(() => {
+        const db = firebase.firestore()
+        db.collection('tracks')
+            .doc(id)
+            .onSnapshot(function(doc) {
+                setTrack(doc.data())
+            })
+    }, [id])
+
+    const onNameChange = (name) => {
+        const db = firebase.firestore()
+        const trackRef = db.collection('tracks').doc(id)
+        trackRef.update({
+            name,
+        })
+    }
 
     return (
         <TrackWrapper>
             <input
                 type="text"
                 placeholder="Track name"
-                value={name}
-                onChange={({ target: { value } }) => setName(value)}
+                value={track?.name || ''}
+                onChange={({ target: { value } }) => onNameChange(value)}
             />
             <TrackPanel
                 ref={input}
@@ -54,9 +72,21 @@ const Track = ({ name: initialName, addNewTrack }) => {
     )
 }
 
-const Jam = () => {
+const Song = ({ match }) => {
     const videoRef = useRef(null)
     const input = useRef(null)
+    const [song, setSong] = useState({})
+    console.log('song', song)
+
+    useEffect(() => {
+        const db = firebase.firestore()
+        db.collection('songs')
+            .doc(match.params.songId)
+            .onSnapshot(function(doc) {
+                setSong(doc.data())
+            })
+    }, [match.params.songId])
+
     const addNewTrack = (e) => {
         const file = input.current.files[0]
         const objUrl = window.URL.createObjectURL(file)
@@ -70,9 +100,25 @@ const Jam = () => {
         })
     }
 
-    const click = () => {
-        const files = videoRef.current.files
-        console.log(files)
+    const click = async () => {
+        // const files = videoRef.current.files
+        const db = firebase.firestore()
+        // Create new track
+        // Link new track to siong
+        const newTrack = await db
+            .collection('tracks')
+            .add({ name: 'Track name' })
+
+        const songId = match.params.songId
+
+        console.log(newTrack.id)
+        console.log(song)
+
+        const songRef = db.collection('songs').doc(songId)
+        const existingTracks = song.tracks
+        await songRef.update({
+            tracks: [...existingTracks, newTrack.id],
+        })
     }
 
     return (
@@ -83,12 +129,14 @@ const Jam = () => {
             </Top>
 
             <Bottom>
-                <Track name="Lead Guitar" addNewTrack={addNewTrack} />
-                <Track name="Rhythm Guitar" addNewTrack={addNewTrack} />
+                {song.tracks &&
+                    song.tracks.map((trackId) => (
+                        <Track key={trackId} id={trackId} />
+                    ))}
                 <div onClick={click}>Add new track</div>
             </Bottom>
         </Container>
     )
 }
 
-export default Jam
+export default Song

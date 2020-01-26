@@ -1,43 +1,60 @@
 import React, { useEffect, useState } from 'react'
 import firebase from 'firebase/app'
+import { Link } from 'react-router-dom'
 
-const JamList = ({ user }) => {
+const SongList = ({ user = {} }) => {
+    const userId = user.uid || ''
     const [songs, setSongs] = useState([])
-    const [newSongName, setNewSongName] = useState([])
+    const [newSongName, setNewSongName] = useState('')
 
     useEffect(() => {
         // get the songs
         const fetchData = () => {
             const db = firebase.firestore()
             db.collection('songs')
-                .where('userId', '==', user.uid)
+                .where('userId', '==', userId)
                 .onSnapshot((qs) => {
                     console.log(qs)
                     let songArr = []
-                    qs.forEach((doc) => songArr.push(doc.data()))
+                    qs.forEach((doc) => {
+                        songArr.push({
+                            id: doc.id,
+                            ...doc.data(),
+                        })
+                    })
                     setSongs(songArr)
                 })
         }
         fetchData()
-    }, [user.uid])
+    }, [userId])
 
     const addSong = async () => {
         const db = firebase.firestore()
-        db.collection('songs').add({
+        const song = await db.collection('songs').add({
             name: newSongName,
-            userId: user.uid,
+            tracks: [],
+            userId,
         })
+        console.log(song)
+        setNewSongName('')
     }
 
     return (
         <div>
             {songs.map((song) => (
-                <div key={song.name}>{song.name}</div>
+                <Link
+                    key={song.name}
+                    to={`songs/${song.id}`}
+                    style={{ display: 'block' }}
+                >
+                    {song.name}
+                </Link>
             ))}
             <hr />
             <input
                 type="text"
                 placeholder="New song name"
+                value={newSongName}
                 onChange={({ target: { value } }) => setNewSongName(value)}
             />
             <button type="button" onClick={addSong}>
@@ -47,4 +64,4 @@ const JamList = ({ user }) => {
     )
 }
 
-export default JamList
+export default SongList

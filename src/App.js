@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, useContext } from 'react'
 import VideoRecorder from 'react-video-recorder'
 import firebase from 'firebase'
 
 import './App.css'
 import firebaseConfig from './config'
 
-import { JamList, LoginScreen } from './components'
+import { SongList, LoginScreen, Router } from './components'
 
 const mediaConstraints = {
     audio: true,
@@ -27,7 +27,7 @@ function App() {
 
         firebase.auth().onAuthStateChanged((user) => {
             if (user) setUser(user)
-            console.log('user', user.uid)
+            console.log('user', user)
             setLoading(false)
         })
     }, [])
@@ -36,7 +36,8 @@ function App() {
 
     return (
         <div className="App">
-            {user ? <JamList user={user} /> : <LoginScreen setUser={setUser} />}
+            <Router user={user} setUser={setUser} />
+            {/* {user ? <SongList user={user} /> : <LoginScreen setUser={setUser} />} */}
         </div>
     )
 }
