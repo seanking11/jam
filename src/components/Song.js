@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import firebase from 'firebase'
+import uuid from 'uuid/v4'
 
 const Container = styled.div`
     display: grid;
@@ -29,11 +30,36 @@ const TrackWrapper = styled.div`
     flex-direction: column;
 `
 
+const ClipVideo = styled.video`
+    width: 150px;
+    height: 75px;
+`
+
+const Clip = ({ id }) => {
+    const [clip, setClip] = useState()
+    useEffect(() => {
+        if (id) {
+            const db = firebase.firestore()
+            db.collection('clips')
+                .doc(id)
+                .onSnapshot(function(doc) {
+                    setClip({
+                        id,
+                        ...doc.data(),
+                    })
+                })
+        }
+    }, [id])
+
+    if (!clip) return <div>...</div>
+
+    return <ClipVideo src={clip.url} controls />
+}
+
 const Track = ({ id, addNewTrack }) => {
     const [track, setTrack] = useState({})
     // const [name, setName] = useState('')
     const input = useRef(null)
-
     useEffect(() => {
         const db = firebase.firestore()
         db.collection('tracks')
@@ -51,6 +77,31 @@ const Track = ({ id, addNewTrack }) => {
         })
     }
 
+    const uploadFile = async (e) => {
+        const clipId = uuid()
+        const file = input.current.files[0]
+
+        const storageRef = firebase.storage().ref()
+        const clipRef = storageRef.child(`clips/${clipId}.mp4`)
+        // Upload clip
+        const uploadTask = await clipRef.put(file)
+        const downloadURL = await uploadTask.ref.getDownloadURL()
+        // Create clip document
+        const db = firebase.firestore()
+        await db
+            .collection('clips')
+            .doc(clipId)
+            .set({
+                url: downloadURL,
+            })
+
+        // Update track to include clip
+        await db
+            .collection('tracks')
+            .doc(id)
+            .update({ clips: firebase.firestore.FieldValue.arrayUnion(clipId) })
+    }
+
     return (
         <TrackWrapper>
             <input
@@ -59,9 +110,11 @@ const Track = ({ id, addNewTrack }) => {
                 value={track?.name || ''}
                 onChange={({ target: { value } }) => onNameChange(value)}
             />
+            {track?.clips &&
+                track.clips.map((clipId) => <Clip key={clipId} id={clipId} />)}
             <TrackPanel
                 ref={input}
-                onChange={addNewTrack}
+                onChange={uploadFile}
                 type="file"
                 accept="video/*"
             />
