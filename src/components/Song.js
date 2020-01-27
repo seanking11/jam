@@ -156,6 +156,7 @@ const Song = ({
             .update({
                 userIds: firebase.firestore.FieldValue.arrayUnion(friendId),
             })
+        setFriendId('')
     }
 
     const addNewTrack = async () => {

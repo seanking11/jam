@@ -86,9 +86,7 @@ const SongList = ({ user = {} }) => {
             </div>
             <div>
                 <h4>Songs shared with you</h4>
-                <div>
-                    Your user ID <code>{user.uid}</code>
-                </div>
+
                 {sharedSongs &&
                     sharedSongs.map((song) => (
                         <Link
@@ -102,6 +100,10 @@ const SongList = ({ user = {} }) => {
                             {song.name}
                         </Link>
                     ))}
+
+                <div>
+                    Your user ID <code>{user.uid}</code>
+                </div>
             </div>
         </div>
     )
