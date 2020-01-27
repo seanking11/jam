@@ -13,7 +13,6 @@ const SongList = ({ user = {} }) => {
             db.collection('songs')
                 .where('userId', '==', userId)
                 .onSnapshot((qs) => {
-                    console.log(qs)
                     let songArr = []
                     qs.forEach((doc) => {
                         songArr.push({

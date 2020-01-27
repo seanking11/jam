@@ -69,21 +69,31 @@ const Track = ({ id, addNewTrack }) => {
     )
 }
 
-const Song = ({ match }) => {
+const Song = ({
+    match: {
+        params: { songId },
+    },
+}) => {
     const videoRef = useRef(null)
     const input = useRef(null)
     const [song, setSong] = useState({})
 
     useEffect(() => {
-        if (match.params.songId) {
+        if (songId) {
             const db = firebase.firestore()
             db.collection('songs')
-                .doc(match.params.songId || '')
+                .doc(songId || '')
                 .onSnapshot(function(doc) {
                     setSong(doc.data())
                 })
         }
-    }, [match.params.songId])
+    }, [songId])
+
+    const onSongNameChange = (name) => {
+        const db = firebase.firestore()
+        const songRef = db.collection('songs').doc(songId)
+        songRef.update({ name })
+    }
 
     const uploadFile = (e) => {
         const file = input.current.files[0]
@@ -104,8 +114,6 @@ const Song = ({ match }) => {
             .collection('tracks')
             .add({ name: 'Track name' })
 
-        const songId = match.params.songId
-
         const songRef = db.collection('songs').doc(songId)
         const existingTracks = song.tracks
         await songRef.update({
@@ -116,7 +124,14 @@ const Song = ({ match }) => {
     return (
         <Container>
             <Top>
-                <input type="text" placeholder="Song title" />
+                <input
+                    type="text"
+                    placeholder="Song title"
+                    value={song?.name || ''}
+                    onChange={({ target: { value } }) =>
+                        onSongNameChange(value)
+                    }
+                />
                 <video id="video" ref={videoRef} controls />
             </Top>
 
