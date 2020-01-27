@@ -128,8 +128,8 @@ const Song = ({
     },
 }) => {
     const videoRef = useRef(null)
-    const input = useRef(null)
     const [song, setSong] = useState({})
+    const [friendId, setFriendId] = useState('')
 
     useEffect(() => {
         if (songId) {
@@ -148,17 +148,14 @@ const Song = ({
         songRef.update({ name })
     }
 
-    const uploadFile = (e) => {
-        const file = input.current.files[0]
-        const objUrl = window.URL.createObjectURL(file)
-        videoRef.current.src = objUrl
-
-        // Upload to firebase
-        const storageRef = firebase.storage().ref()
-        const clipRef = storageRef.child('clip.mp4')
-        clipRef.put(file).then(function(snapshot) {
-            console.log('Uploaded a blob or file!', snapshot)
-        })
+    const onShareWithFriend = async () => {
+        const db = firebase.firestore()
+        await db
+            .collection('songs')
+            .doc(songId)
+            .update({
+                userIds: firebase.firestore.FieldValue.arrayUnion(friendId),
+            })
     }
 
     const addNewTrack = async () => {
@@ -185,7 +182,15 @@ const Song = ({
                         onSongNameChange(value)
                     }
                 />
-                <video id="video" ref={videoRef} controls />
+
+                <input
+                    type="text"
+                    placeholder="Friend's user ID"
+                    value={friendId}
+                    onChange={({ target: { value } }) => setFriendId(value)}
+                />
+                <button onClick={onShareWithFriend}>Share with friend</button>
+                {/* <video id="video" ref={videoRef} controls /> */}
             </Top>
 
             <Bottom>
