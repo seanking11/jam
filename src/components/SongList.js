@@ -3,13 +3,12 @@ import firebase from 'firebase/app'
 import { Link } from 'react-router-dom'
 
 const SongList = ({ user = {} }) => {
-    const userId = user.uid || ''
+    const userId = user?.uid
     const [songs, setSongs] = useState([])
     const [newSongName, setNewSongName] = useState('')
 
     useEffect(() => {
-        // get the songs
-        const fetchData = () => {
+        if (userId) {
             const db = firebase.firestore()
             db.collection('songs')
                 .where('userId', '==', userId)
@@ -25,31 +24,42 @@ const SongList = ({ user = {} }) => {
                     setSongs(songArr)
                 })
         }
-        fetchData()
     }, [userId])
 
     const addSong = async () => {
         const db = firebase.firestore()
-        const song = await db.collection('songs').add({
+        await db.collection('songs').add({
             name: newSongName,
             tracks: [],
             userId,
         })
-        console.log(song)
         setNewSongName('')
     }
 
     return (
         <div>
-            {songs.map((song) => (
-                <Link
-                    key={song.name}
-                    to={`songs/${song.id}`}
-                    style={{ display: 'block' }}
-                >
-                    {song.name}
-                </Link>
-            ))}
+            {songs ? (
+                songs.map((song) => (
+                    <Link
+                        key={song.name}
+                        to={`songs/${song.id}`}
+                        style={{ display: 'block' }}
+                    >
+                        <span role="img" aria-label="Music note">
+                            🎵
+                        </span>{' '}
+                        {song.name}
+                    </Link>
+                ))
+            ) : (
+                <div>
+                    <span role="img" aria-label="Scream">
+                        😱
+                    </span>{' '}
+                    You have no songs, add one below!
+                </div>
+            )}
+
             <hr />
             <input
                 type="text"
@@ -58,6 +68,9 @@ const SongList = ({ user = {} }) => {
                 onChange={({ target: { value } }) => setNewSongName(value)}
             />
             <button type="button" onClick={addSong}>
+                <span role="img" aria-label="Plus">
+                    ➕
+                </span>{' '}
                 Add new song
             </button>
         </div>

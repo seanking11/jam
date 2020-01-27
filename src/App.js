@@ -1,21 +1,11 @@
-import React, { useEffect, useRef, useState, useContext } from 'react'
-import VideoRecorder from 'react-video-recorder'
+import React, { useEffect, useState } from 'react'
 import firebase from 'firebase'
 
 import './App.css'
 import firebaseConfig from './config'
 
-import { SongList, LoginScreen, Router } from './components'
-
-const mediaConstraints = {
-    audio: true,
-    video: {
-        width: { min: 1280 },
-        height: { min: 720 },
-    },
-}
-
-// Get an extension that allows you to write arrow functions, normal functions, objects, etc.
+import { Router } from './components'
+import AuthContext from './state/AuthContext'
 
 function App() {
     const [user, setUser] = useState(null)
@@ -27,7 +17,7 @@ function App() {
 
         firebase.auth().onAuthStateChanged((user) => {
             if (user) setUser(user)
-            console.log('user', user)
+            console.log('Auth state changed, user -', user)
             setLoading(false)
         })
     }, [])
@@ -36,8 +26,9 @@ function App() {
 
     return (
         <div className="App">
-            <Router user={user} setUser={setUser} />
-            {/* {user ? <SongList user={user} /> : <LoginScreen setUser={setUser} />} */}
+            <AuthContext.Provider value={{ user, setUser }}>
+                <Router />
+            </AuthContext.Provider>
         </div>
     )
 }

@@ -1,22 +1,30 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 
 import { SignIn, SignUp } from './index'
+import AuthContext from '../state/AuthContext'
 
-// Get an extension that allows you to write arrow functions, normal functions, objects, etc.
-
-const LoginScreen = ({ setUser }) => {
+const LoginScreen = ({ history }) => {
     const [showSignIn, setShowSignIn] = useState(false)
+    const { setUser } = useContext(AuthContext)
 
     const toggleShowSignIn = () => {
         setShowSignIn(!showSignIn)
     }
 
     return (
-        <div className="App">
+        <div>
             {showSignIn ? (
-                <SignIn toggleVisibility={toggleShowSignIn} setUser={setUser} />
+                <SignIn
+                    toggleVisibility={toggleShowSignIn}
+                    setUser={setUser}
+                    history={history}
+                />
             ) : (
-                <SignUp toggleVisibility={toggleShowSignIn} setUser={setUser} />
+                <SignUp
+                    toggleVisibility={toggleShowSignIn}
+                    setUser={setUser}
+                    history={history}
+                />
             )}
         </div>
     )

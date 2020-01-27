@@ -1,32 +1,20 @@
 import React from 'react'
-import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
+import { BrowserRouter, Switch, Redirect } from 'react-router-dom'
 
-import AuthContext from '../state/AuthContext'
 import { SongList, Song, LoginScreen, PublicRoute, PrivateRoute } from './'
 
-const Router2 = ({ setUser, user }) => {
-    console.log('user', user)
+const Router = () => {
     return (
-        // <AuthContext.Provider value={user}>
-        <Router>
-            {/* <Route
-                exact
-                path="/login"
-                component={() => <LoginScreen setUser={setUser} />}
-            /> */}
+        <BrowserRouter>
+            <Switch>
+                <Redirect exact from="/" to="/songs" />
+                <PublicRoute exact path="/login" component={LoginScreen} />
 
-            <Route exact user={user} path="/songs" component={SongList} />
-            <Route exact user={user} path="/songs/:songId" component={Song} />
-
-            {/* <PrivateRoute
-                    user={user}
-                    // path="/songs/:songId"
-                    path="/test"
-                    component={Song}
-                /> */}
-        </Router>
-        /* </AuthContext.Provider> */
+                <PrivateRoute exact path="/songs" component={SongList} />
+                <PrivateRoute exact path="/songs/:songId" component={Song} />
+            </Switch>
+        </BrowserRouter>
     )
 }
 
-export default Router2
+export default Router

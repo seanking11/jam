@@ -1,7 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import firebase from 'firebase'
 
 const Container = styled.div`
@@ -33,7 +31,7 @@ const TrackWrapper = styled.div`
 
 const Track = ({ id, addNewTrack }) => {
     const [track, setTrack] = useState({})
-    const [name, setName] = useState('')
+    // const [name, setName] = useState('')
     const input = useRef(null)
 
     useEffect(() => {
@@ -67,7 +65,6 @@ const Track = ({ id, addNewTrack }) => {
                 type="file"
                 accept="video/*"
             />
-            {/* <FontAwesomeIcon icon={faPlus} size="3x" onClick={click} /> */}
         </TrackWrapper>
     )
 }
@@ -76,18 +73,19 @@ const Song = ({ match }) => {
     const videoRef = useRef(null)
     const input = useRef(null)
     const [song, setSong] = useState({})
-    console.log('song', song)
 
     useEffect(() => {
-        const db = firebase.firestore()
-        db.collection('songs')
-            .doc(match.params.songId)
-            .onSnapshot(function(doc) {
-                setSong(doc.data())
-            })
+        if (match.params.songId) {
+            const db = firebase.firestore()
+            db.collection('songs')
+                .doc(match.params.songId || '')
+                .onSnapshot(function(doc) {
+                    setSong(doc.data())
+                })
+        }
     }, [match.params.songId])
 
-    const addNewTrack = (e) => {
+    const uploadFile = (e) => {
         const file = input.current.files[0]
         const objUrl = window.URL.createObjectURL(file)
         videoRef.current.src = objUrl
@@ -100,19 +98,13 @@ const Song = ({ match }) => {
         })
     }
 
-    const click = async () => {
-        // const files = videoRef.current.files
+    const addNewTrack = async () => {
         const db = firebase.firestore()
-        // Create new track
-        // Link new track to siong
         const newTrack = await db
             .collection('tracks')
             .add({ name: 'Track name' })
 
         const songId = match.params.songId
-
-        console.log(newTrack.id)
-        console.log(song)
 
         const songRef = db.collection('songs').doc(songId)
         const existingTracks = song.tracks
@@ -129,11 +121,25 @@ const Song = ({ match }) => {
             </Top>
 
             <Bottom>
-                {song.tracks &&
+                {song?.tracks?.length > 0 ? (
                     song.tracks.map((trackId) => (
                         <Track key={trackId} id={trackId} />
-                    ))}
-                <div onClick={click}>Add new track</div>
+                    ))
+                ) : (
+                    <div>
+                        <span role="img" aria-label="X">
+                            ❌
+                        </span>{' '}
+                        No tracks in this song, add one!
+                    </div>
+                )}
+
+                <div onClick={addNewTrack}>
+                    <span role="img" aria-label="Plus">
+                        ➕
+                    </span>{' '}
+                    Add new track
+                </div>
             </Bottom>
         </Container>
     )
