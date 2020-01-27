@@ -11,11 +11,10 @@ const SignIn = ({ toggleVisibility, setUser, history }) => {
             const response = await firebase
                 .auth()
                 .signInWithEmailAndPassword(email, password)
-            console.log(response)
-            if (response) setUser({ name: 'sean' })
+            if (response) setUser(response.user)
             history.push('/songs')
         } catch (err) {
-            console.log(err)
+            console.log('Error logging in', err)
             setError(err.message)
         }
     }
@@ -23,7 +22,6 @@ const SignIn = ({ toggleVisibility, setUser, history }) => {
     return (
         <div>
             <h4>Sign In</h4>
-            {/* <form id='sign-in'> */}
             <input
                 type="text"
                 placeholder="guitarguy69@gmail.com"
@@ -33,9 +31,7 @@ const SignIn = ({ toggleVisibility, setUser, history }) => {
                 type="password"
                 onChange={(e) => setPassword(e.target.value)}
             />
-            {/* <button onSubmit={handleSignIn} type='submit' form='sign-in'>Sign In</button> */}
             <button onClick={handleSignIn}>Sign In</button>
-            {/* </form> */}
             <div onClick={() => toggleVisibility()}>Need an account?</div>
 
             <hr />

@@ -4,7 +4,7 @@ import { SignIn, SignUp } from './index'
 import AuthContext from '../state/AuthContext'
 
 const LoginScreen = ({ history }) => {
-    const [showSignIn, setShowSignIn] = useState(false)
+    const [showSignIn, setShowSignIn] = useState(true)
     const { setUser } = useContext(AuthContext)
 
     const toggleShowSignIn = () => {

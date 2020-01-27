@@ -16,7 +16,7 @@ function App() {
         firebase.analytics()
 
         firebase.auth().onAuthStateChanged((user) => {
-            if (user) setUser(user)
+            setUser(user)
             console.log('Auth state changed, user -', user)
             setLoading(false)
         })
