@@ -5,6 +5,7 @@ import uuid from 'uuid/v4'
 
 const Container = styled.div`
     display: grid;
+    grid-template-columns
     ${'' /* grid-gap: 1em; */}
     ${'' /* grid-auto-rows: minmax(100px); */}
 `
@@ -14,10 +15,15 @@ const Bottom = styled.div`
 `
 
 const Top = styled.div`
-    background-color: grey;
+    height: 200px;
+
+    div {
+        text-align: center;
+    }
 `
 
 const TrackPanel = styled.input`
+    display: inline-block;
     height: 100px;
     background-color: darkgrey;
     ${'' /* display: flex;
@@ -110,14 +116,19 @@ const Track = ({ id, addNewTrack }) => {
                 value={track?.name || ''}
                 onChange={({ target: { value } }) => onNameChange(value)}
             />
-            {track?.clips &&
-                track.clips.map((clipId) => <Clip key={clipId} id={clipId} />)}
-            <TrackPanel
-                ref={input}
-                onChange={uploadFile}
-                type="file"
-                accept="video/*"
-            />
+            <div>
+                {track?.clips &&
+                    track.clips.map((clipId) => (
+                        <Clip key={clipId} id={clipId} />
+                    ))}
+
+                <TrackPanel
+                    ref={input}
+                    onChange={uploadFile}
+                    type="file"
+                    accept="video/*"
+                />
+            </div>
         </TrackWrapper>
     )
 }
@@ -175,14 +186,16 @@ const Song = ({
     return (
         <Container>
             <Top>
-                <input
-                    type="text"
-                    placeholder="Song title"
-                    value={song?.name || ''}
-                    onChange={({ target: { value } }) =>
-                        onSongNameChange(value)
-                    }
-                />
+                <div>
+                    <input
+                        type="text"
+                        placeholder="Song title"
+                        value={song?.name || ''}
+                        onChange={({ target: { value } }) =>
+                            onSongNameChange(value)
+                        }
+                    />
+                </div>
 
                 <input
                     type="text"
@@ -208,6 +221,7 @@ const Song = ({
                     </div>
                 )}
 
+                <hr />
                 <div onClick={addNewTrack}>
                     <span role="img" aria-label="Plus">
                         ➕
