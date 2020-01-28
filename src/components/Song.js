@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import firebase from 'firebase'
 import uuid from 'uuid/v4'
-import PlayPause from './PlayPause'
 
 const Container = styled.div`
     display: grid;
@@ -42,7 +41,7 @@ const ClipVideo = styled.video`
     height: 75px;
 `
 
-const Clip = ({ id, videoRef, ...rest }) => {
+const Clip = ({ id }) => {
     const [clip, setClip] = useState()
     useEffect(() => {
         if (id) {
@@ -60,17 +59,13 @@ const Clip = ({ id, videoRef, ...rest }) => {
 
     if (!clip) return <div>...</div>
 
-    return <ClipVideo src={clip.url} controls ref={videoRef} {...rest} />
+    return <ClipVideo src={clip.url} controls />
 }
 
-const Track = ({ id, onAddNewTracks, videoRef }) => {
+const Track = ({ id, addNewTrack }) => {
     const [track, setTrack] = useState({})
     // const [name, setName] = useState('')
     const input = useRef(null)
-
-    const videoRefs = useRef(track?.clips?.map(React.createRef))
-    console.log(videoRefs)
-
     useEffect(() => {
         const db = firebase.firestore()
         db.collection('tracks')
@@ -113,14 +108,6 @@ const Track = ({ id, onAddNewTracks, videoRef }) => {
             .update({ clips: firebase.firestore.FieldValue.arrayUnion(clipId) })
     }
 
-    const onTogglePausePlay = () => {
-        for (const videoRef in videoRefs) {
-            console.log('videoRef', videoRef)
-            videoRef.play()
-        }
-    }
-
-    const clipId = track?.clips && track?.clips[0]
     return (
         <TrackWrapper>
             <input
@@ -129,15 +116,10 @@ const Track = ({ id, onAddNewTracks, videoRef }) => {
                 value={track?.name || ''}
                 onChange={({ target: { value } }) => onNameChange(value)}
             />
-            <PlayPause onToggle={onTogglePausePlay} />
             <div>
                 {track?.clips &&
-                    track.clips.map((clipId, index) => (
-                        <Clip
-                            key={clipId}
-                            id={clipId}
-                            videoRef={videoRefs[index]}
-                        />
+                    track.clips.map((clipId) => (
+                        <Clip key={clipId} id={clipId} />
                     ))}
 
                 <TrackPanel
@@ -156,10 +138,10 @@ const Song = ({
         params: { songId },
     },
 }) => {
+    const videoRef = useRef(null)
     const [song, setSong] = useState({})
     const [friendId, setFriendId] = useState('')
-    // const videoRefs = useRef(song?.tracks?.map(React.createRef))
-    // console.log(videoRefs)
+
     useEffect(() => {
         if (songId) {
             const db = firebase.firestore()
@@ -188,7 +170,7 @@ const Song = ({
         setFriendId('')
     }
 
-    const onAddNewTracks = async () => {
+    const addNewTrack = async () => {
         const db = firebase.firestore()
         const newTrack = await db
             .collection('tracks')
@@ -200,13 +182,6 @@ const Song = ({
             tracks: [...existingTracks, newTrack.id],
         })
     }
-
-    // const onTogglePausePlay = () => {
-    //     console.log('clicked')
-    //     for (const videoRef in videoRefs) {
-    //         videoRef.play()
-    //     }
-    // }
 
     return (
         <Container>
@@ -230,7 +205,6 @@ const Song = ({
                 />
                 <button onClick={onShareWithFriend}>Share with friend</button>
                 {/* <video id="video" ref={videoRef} controls /> */}
-                {/* <PlayPause onToggle={onTogglePausePlay} /> */}
             </Top>
 
             <Bottom>
@@ -248,7 +222,7 @@ const Song = ({
                 )}
 
                 <hr />
-                <div onClick={onAddNewTracks}>
+                <div onClick={addNewTrack}>
                     <span role="img" aria-label="Plus">
                         ➕
                     </span>{' '}
