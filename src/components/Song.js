@@ -1,15 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import firebase from 'firebase'
-import uuid from 'uuid/v4'
+
+import { Track } from './index'
+import PlayPause from './PlayPause'
 
 const Container = styled.div`
     display: grid;
     grid-template-columns
-    ${'' /* grid-gap: 1em; */}
-    ${'' /* grid-auto-rows: minmax(100px); */}
 `
-
 const Bottom = styled.div`
     background-color: lightgrey;
 `
@@ -22,123 +21,11 @@ const Top = styled.div`
     }
 `
 
-const TrackPanel = styled.input`
-    display: inline-block;
-    height: 100px;
-    background-color: darkgrey;
-    ${'' /* display: flex;
-    align-items: center;
-    justify-content: center; */}
-`
-
-const TrackWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-`
-
-const ClipVideo = styled.video`
-    width: 150px;
-    height: 75px;
-`
-
-const Clip = ({ id }) => {
-    const [clip, setClip] = useState()
-    useEffect(() => {
-        if (id) {
-            const db = firebase.firestore()
-            db.collection('clips')
-                .doc(id)
-                .onSnapshot(function(doc) {
-                    setClip({
-                        id,
-                        ...doc.data(),
-                    })
-                })
-        }
-    }, [id])
-
-    if (!clip) return <div>...</div>
-
-    return <ClipVideo src={clip.url} controls />
-}
-
-const Track = ({ id, addNewTrack }) => {
-    const [track, setTrack] = useState({})
-    // const [name, setName] = useState('')
-    const input = useRef(null)
-    useEffect(() => {
-        const db = firebase.firestore()
-        db.collection('tracks')
-            .doc(id)
-            .onSnapshot(function(doc) {
-                setTrack(doc.data())
-            })
-    }, [id])
-
-    const onNameChange = (name) => {
-        const db = firebase.firestore()
-        const trackRef = db.collection('tracks').doc(id)
-        trackRef.update({
-            name,
-        })
-    }
-
-    const uploadFile = async (e) => {
-        const clipId = uuid()
-        const file = input.current.files[0]
-
-        const storageRef = firebase.storage().ref()
-        const clipRef = storageRef.child(`clips/${clipId}.mp4`)
-        // Upload clip
-        const uploadTask = await clipRef.put(file)
-        const downloadURL = await uploadTask.ref.getDownloadURL()
-        // Create clip document
-        const db = firebase.firestore()
-        await db
-            .collection('clips')
-            .doc(clipId)
-            .set({
-                url: downloadURL,
-            })
-
-        // Update track to include clip
-        await db
-            .collection('tracks')
-            .doc(id)
-            .update({ clips: firebase.firestore.FieldValue.arrayUnion(clipId) })
-    }
-
-    return (
-        <TrackWrapper>
-            <input
-                type="text"
-                placeholder="Track name"
-                value={track?.name || ''}
-                onChange={({ target: { value } }) => onNameChange(value)}
-            />
-            <div>
-                {track?.clips &&
-                    track.clips.map((clipId) => (
-                        <Clip key={clipId} id={clipId} />
-                    ))}
-
-                <TrackPanel
-                    ref={input}
-                    onChange={uploadFile}
-                    type="file"
-                    accept="video/*"
-                />
-            </div>
-        </TrackWrapper>
-    )
-}
-
 const Song = ({
     match: {
         params: { songId },
     },
 }) => {
-    const videoRef = useRef(null)
     const [song, setSong] = useState({})
     const [friendId, setFriendId] = useState('')
 
@@ -183,6 +70,11 @@ const Song = ({
         })
     }
 
+    const onToggle = () => {
+        // videoRef1.current.play()
+        // videoRef2.current.play()
+    }
+
     return (
         <Container>
             <Top>
@@ -204,7 +96,8 @@ const Song = ({
                     onChange={({ target: { value } }) => setFriendId(value)}
                 />
                 <button onClick={onShareWithFriend}>Share with friend</button>
-                {/* <video id="video" ref={videoRef} controls /> */}
+
+                <PlayPause onToggle={onToggle} />
             </Top>
 
             <Bottom>
