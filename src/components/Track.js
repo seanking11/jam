@@ -9,14 +9,16 @@ const TrackPanel = styled.input`
     display: inline-block;
     height: 100px;
     background-color: darkgrey;
-    ${'' /* display: flex;
-    align-items: center;
-    justify-content: center; */}
+    margin: 10px;
 `
 
 const TrackWrapper = styled.div`
     display: flex;
     flex-direction: column;
+
+    div {
+        background-color: darkgrey;
+    }
 `
 
 const Track = ({ id, addNewTrack }) => {

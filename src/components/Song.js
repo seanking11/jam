@@ -11,13 +11,24 @@ const Container = styled.div`
 `
 const Bottom = styled.div`
     background-color: lightgrey;
+    height: 80vh;
+    padding: 15px;
+
+    div {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
 `
 
 const Top = styled.div`
-    height: 200px;
+    height: 20vh;
+    display: flex;
+    flex-direction: row;
 
     div {
         text-align: center;
+        flex: 1;
+        border: 1px solid #eee;
     }
 `
 
@@ -89,18 +100,23 @@ const Song = ({
                     />
                 </div>
 
-                <input
-                    type="text"
-                    placeholder="Friend's user ID"
-                    value={friendId}
-                    onChange={({ target: { value } }) => setFriendId(value)}
-                />
-                <button onClick={onShareWithFriend}>Share with friend</button>
+                <div>
+                    <input
+                        type="text"
+                        placeholder="Friend's user ID"
+                        value={friendId}
+                        onChange={({ target: { value } }) => setFriendId(value)}
+                    />
+                    <button onClick={onShareWithFriend}>
+                        Share with friend
+                    </button>
+                </div>
 
-                <PlayPause onToggle={onToggle} />
+                <div>videos</div>
             </Top>
 
             <Bottom>
+                <PlayPause onToggle={onToggle} />
                 {song?.tracks?.length > 0 ? (
                     song.tracks.map((trackId) => (
                         <Track key={trackId} id={trackId} />

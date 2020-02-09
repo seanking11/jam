@@ -25,7 +25,7 @@ const Clip = ({ id }) => {
 
     if (!clip) return <div>...</div>
 
-    return <ClipVideo src={clip.url} controls />
+    return <ClipVideo src={clip.url} />
 }
 
 export default Clip
