@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import firebase from 'firebase'
 
-import './App.css'
 import firebaseConfig from './config'
 
 import { Router } from './components'
