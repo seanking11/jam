@@ -17,8 +17,11 @@ const PrivateRoute = ({ component: Component, path, user, ...rest }) => {
                 authContext?.user?.uid ? (
                     <>
                         <Component user={authContext?.user} {...props} />
-
-                        <button type={'button'} onClick={signOut}>
+                        <button
+                            type="button"
+                            onClick={signOut}
+                            className="float-right p-2"
+                        >
                             <span role="img" aria-label="Wave">
                                 👋
                             </span>{' '}

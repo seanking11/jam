@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 import firebase from 'firebase'
 
 import { Track } from './index'
@@ -87,20 +88,37 @@ const Song = ({
     }
 
     return (
-        <Container>
-            <Top>
-                <div>
-                    <input
-                        type="text"
-                        placeholder="Song title"
-                        value={song?.name || ''}
-                        onChange={({ target: { value } }) =>
-                            onSongNameChange(value)
-                        }
-                    />
+        <div className="h-screen w-screen">
+            <div className="p-4 text-center border ">
+                <Link to="/songs" className="float-left">
+                    Back
+                </Link>
+                <input
+                    className="border-b"
+                    type="text"
+                    placeholder="Song title"
+                    value={song?.name || ''}
+                    onChange={({ target: { value } }) =>
+                        onSongNameChange(value)
+                    }
+                />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2">
+                <div className="border grid grid-flow-col">
+                    <video
+                        // className="w-screen h-auto"
+                        controls
+                        src="https://firebasestorage.googleapis.com/v0/b/jams-b177f.appspot.com/o/clips%2F7eae593a-29fd-4d9f-b89e-8075ec4aa2b0.mp4?alt=media&token=f404210b-4490-404c-8cf7-5e6361a95ecb"
+                    ></video>
+                    <video
+                        // className="w-screen h-auto"
+                        controls
+                        src="https://firebasestorage.googleapis.com/v0/b/jams-b177f.appspot.com/o/clips%2F7eae593a-29fd-4d9f-b89e-8075ec4aa2b0.mp4?alt=media&token=f404210b-4490-404c-8cf7-5e6361a95ecb"
+                    ></video>
                 </div>
 
-                <div>
+                <div className="border">
                     <input
                         type="text"
                         placeholder="Friend's user ID"
@@ -111,11 +129,9 @@ const Song = ({
                         Share with friend
                     </button>
                 </div>
+            </div>
 
-                <div>videos</div>
-            </Top>
-
-            <Bottom>
+            <div className="fp-4">
                 <PlayPause onToggle={onToggle} />
                 {song?.tracks?.length > 0 ? (
                     song.tracks.map((trackId) => (
@@ -137,8 +153,8 @@ const Song = ({
                     </span>{' '}
                     Add new track
                 </div>
-            </Bottom>
-        </Container>
+            </div>
+        </div>
     )
 }
 
