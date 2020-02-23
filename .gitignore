@@ -24,3 +24,5 @@ yarn-error.log*
 
 config.js
 config.jamsession.js
+
+styles/tailwind.css
