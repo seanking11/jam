@@ -1,36 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react'
-import styled from 'styled-components'
+import _ from 'lodash'
+import React, { useState, createRef, useEffect, useCallback } from 'react'
+import { Link } from 'react-router-dom'
 import firebase from 'firebase'
+import VideoRecorder from 'react-video-recorder'
+import uuid from 'uuid/v4'
 
-import { Track } from './index'
-import PlayPause from './PlayPause'
+import { Track, PlayPause } from './index'
 
-const Container = styled.div`
-    display: grid;
-    grid-template-columns
-`
-const Bottom = styled.div`
-    background-color: lightgrey;
-    height: 80vh;
-    padding: 15px;
-
-    div {
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-`
-
-const Top = styled.div`
-    height: 20vh;
-    display: flex;
-    flex-direction: row;
-
-    div {
-        text-align: center;
-        flex: 1;
-        border: 1px solid #eee;
-    }
-`
+const COUNTDOWN_DELAY_MS = 3000
 
 const Song = ({
     match: {
@@ -39,6 +16,10 @@ const Song = ({
 }) => {
     const [song, setSong] = useState({})
     const [friendId, setFriendId] = useState('')
+    const [isPlaying, setIsPlaying] = useState(false)
+    const [videoRefs, setVideoRefs] = useState()
+    const [showRecorder, setShowRecorder] = useState(true)
+    const [clipUrls, setClipUrls] = useState([])
 
     useEffect(() => {
         if (songId) {
@@ -46,7 +27,28 @@ const Song = ({
             db.collection('songs')
                 .doc(songId || '')
                 .onSnapshot(function(doc) {
-                    setSong(doc.data())
+                    const song = doc.data()
+                    setSong(song)
+
+                    const tracks = song?.tracks
+                    const trackIds = _.keys(tracks)
+
+                    const clipUrls = trackIds
+                        .map((trackId) => {
+                            if (tracks[trackId].clips) {
+                                const clipIds = Object.keys(
+                                    tracks[trackId].clips
+                                )
+                                return tracks[trackId].clips[clipIds[0]].url
+                            }
+
+                            return ''
+                        })
+                        .filter((clip) => clip !== '')
+                    setClipUrls(clipUrls)
+
+                    const videoRefs = clipUrls.map((url) => createRef())
+                    setVideoRefs(videoRefs)
                 })
         }
     }, [songId])
@@ -70,37 +72,122 @@ const Song = ({
 
     const addNewTrack = async () => {
         const db = firebase.firestore()
-        const newTrack = await db
-            .collection('tracks')
-            .add({ name: 'Track name' })
+        const trackId = uuid()
 
         const songRef = db.collection('songs').doc(songId)
-        const existingTracks = song.tracks
+        const trackPath = `tracks.${trackId}`
+
         await songRef.update({
-            tracks: [...existingTracks, newTrack.id],
+            [trackPath]: {
+                name: 'Track Name',
+            },
         })
+
+        return trackId
     }
 
-    const onToggle = () => {
-        // videoRef1.current.play()
-        // videoRef2.current.play()
+    const onRecordingComplete = async (videoBlob) => {
+        // Pause the video and hide the recorder
+        onPause()
+        setShowRecorder(false)
+        const clipId = uuid()
+
+        const storageRef = firebase.storage().ref()
+        const clipRef = storageRef.child(`clips/${clipId}.mp4`)
+        // Upload clip
+        const uploadTask = await clipRef.put(videoBlob)
+        const downloadURL = await uploadTask.ref.getDownloadURL()
+        // Create clip document
+        const db = firebase.firestore()
+        await db
+            .collection('clips')
+            .doc(clipId)
+            .set({
+                url: downloadURL,
+            })
+
+        // Create new track
+        const trackId = await addNewTrack()
+
+        // Update track to include clip
+        const songRef = db.collection('songs').doc(songId)
+        const clipPath = `tracks.${trackId}.clips.${clipId}`
+        await songRef.update({ [clipPath]: { url: downloadURL } })
     }
+
+    const onPause = useCallback(() => {
+        _.each(videoRefs, (ref) => {
+            ref.current.pause()
+        })
+
+        setIsPlaying(false)
+    }, [videoRefs])
+
+    const onPlay = useCallback(() => {
+        _.each(videoRefs, (ref) => {
+            ref.current.play()
+        })
+
+        setIsPlaying(true)
+    }, [videoRefs])
+
+    const onTogglePlayPause = useCallback(() => {
+        if (isPlaying) {
+            onPause()
+        } else {
+            onPlay()
+        }
+    }, [onPause, onPlay, isPlaying])
+
+    const playWithDelay = useCallback(() => {
+        setTimeout(() => {
+            onPlay()
+        }, COUNTDOWN_DELAY_MS)
+    }, [onPlay])
+
+    const tracks = song?.tracks
+    const trackIds = tracks ? Object.keys(tracks) : []
 
     return (
-        <Container>
-            <Top>
-                <div>
-                    <input
-                        type="text"
-                        placeholder="Song title"
-                        value={song?.name || ''}
-                        onChange={({ target: { value } }) =>
-                            onSongNameChange(value)
-                        }
-                    />
+        <div className="h-screen w-screen">
+            <div className="p-4 text-center border ">
+                <Link to="/songs" className="float-left">
+                    Back
+                </Link>
+                <input
+                    className="border-b"
+                    type="text"
+                    placeholder="Song title"
+                    value={song?.name || ''}
+                    onChange={({ target: { value } }) =>
+                        onSongNameChange(value)
+                    }
+                />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2">
+                <div className="border grid grid-cols-1 md:grid-cols-2 max-h-1/2">
+                    {videoRefs &&
+                        videoRefs.map((ref, i) => (
+                            <div key={i}>
+                                <video
+                                    key={clipUrls[i]}
+                                    src={clipUrls[i]}
+                                    ref={videoRefs[i]}
+                                ></video>
+                            </div>
+                        ))}
+
+                    {showRecorder && (
+                        <VideoRecorder
+                            onRecordingComplete={onRecordingComplete}
+                            onStartRecording={playWithDelay}
+                            countdownTime={COUNTDOWN_DELAY_MS}
+                        />
+                    )}
                 </div>
 
-                <div>
+                <div className="border">
                     <input
                         type="text"
                         placeholder="Friend's user ID"
@@ -111,15 +198,27 @@ const Song = ({
                         Share with friend
                     </button>
                 </div>
+            </div>
 
-                <div>videos</div>
-            </Top>
+            <div className="p-4 bg-gray-100 text-black">
+                <PlayPause onToggle={onTogglePlayPause} />
+                <label htmlFor="showRecorder">Show Recorder</label>
 
-            <Bottom>
-                <PlayPause onToggle={onToggle} />
-                {song?.tracks?.length > 0 ? (
-                    song.tracks.map((trackId) => (
-                        <Track key={trackId} id={trackId} />
+                <input
+                    id="showRecorder"
+                    type="checkbox"
+                    onClick={() => setShowRecorder(!showRecorder)}
+                    defaultChecked
+                    label="Show recorder"
+                />
+                {trackIds.length > 0 ? (
+                    trackIds.map((trackId) => (
+                        <Track
+                            key={trackId}
+                            id={trackId}
+                            track={tracks[trackId]}
+                            songId={songId}
+                        />
                     ))
                 ) : (
                     <div>
@@ -130,15 +229,14 @@ const Song = ({
                     </div>
                 )}
 
-                <hr />
                 <div onClick={addNewTrack}>
                     <span role="img" aria-label="Plus">
                         ➕
                     </span>{' '}
                     Add new track
                 </div>
-            </Bottom>
-        </Container>
+            </div>
+        </div>
     )
 }
 

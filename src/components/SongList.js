@@ -30,32 +30,6 @@ const SongItem = styled(Link)`
     }
 `
 
-const NewSongForm = styled.div`
-    display: flex;
-    margin: 15px;
-    ${'' /* border: 1px solid #777777; */}
-    font-size: 18px;
-    color: #777777;
-    text-align: left;
-
-    input {
-        border: none;
-        border-bottom: 1px solid;
-        flex-grow: 2;
-        border-radius: none;
-        font-size: 16px;
-    }
-
-    button {
-        flex-grow: 1;
-    }
-`
-
-const Title = styled.h4`
-    text-align: left
-    margin-left: 5px
-`
-
 const SongList = ({ user = {} }) => {
     const userId = user?.uid
     const [songs, setSongs] = useState([])
@@ -83,7 +57,7 @@ const SongList = ({ user = {} }) => {
         const db = firebase.firestore()
         await db.collection('songs').add({
             name: newSongName,
-            tracks: [],
+            tracks: {},
             createdBy: userId,
             userIds: [userId],
         })
@@ -100,12 +74,15 @@ const SongList = ({ user = {} }) => {
     return (
         <div>
             <div>
-                <Title>
+                Your user ID <code style={{ fontSize: '8px' }}>{user.uid}</code>{' '}
+            </div>
+            <div>
+                <h4 className="text-3xl p-4 font-semibold">
                     <span role="img" aria-label="Music note">
                         🎵
                     </span>{' '}
                     Your songs
-                </Title>
+                </h4>
                 {yourSongs ? (
                     <SongGrid>
                         {yourSongs.map((song) => (
@@ -127,7 +104,7 @@ const SongList = ({ user = {} }) => {
                     </div>
                 )}
 
-                <NewSongForm>
+                <div className="flex">
                     <input
                         type="text"
                         placeholder="New song name"
@@ -135,22 +112,27 @@ const SongList = ({ user = {} }) => {
                         onChange={({ target: { value } }) =>
                             setNewSongName(value)
                         }
+                        className="border-b border-b-2 m-4 text-lg pb-2 flex-grow focus:outline-none focus:shadow-outline focus:red"
                     />
-                    <button type="button" onClick={addSong}>
+                    <button
+                        type="button"
+                        onClick={addSong}
+                        className="p-4 mr-4"
+                    >
                         <span role="img" aria-label="Plus">
                             ➕
                         </span>{' '}
                     </button>
-                </NewSongForm>
+                </div>
             </div>
 
             <div>
-                <Title>
+                <h4 className="text-3xl p-4 font-semibold">
                     <span role="img" aria-label="Scream">
                         👬
                     </span>{' '}
                     Songs shared with you
-                </Title>
+                </h4>
 
                 {sharedSongs ? (
                     <SongGrid>
@@ -170,10 +152,6 @@ const SongList = ({ user = {} }) => {
                         song
                     </div>
                 )}
-                <div>
-                    Your user ID{' '}
-                    <code style={{ fontSize: '8px' }}>{user.uid}</code>{' '}
-                </div>
             </div>
         </div>
     )
