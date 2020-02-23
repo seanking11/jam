@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
 
 const PlayPause = ({ onToggle = () => {} }) => {
     const [isPlaying, setPlaying] = useState(false)

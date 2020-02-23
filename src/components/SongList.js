@@ -30,27 +30,6 @@ const SongItem = styled(Link)`
     }
 `
 
-const NewSongForm = styled.div`
-    display: flex;
-    margin: 15px;
-    ${'' /* border: 1px solid #777777; */}
-    font-size: 18px;
-    color: #777777;
-    text-align: left;
-
-    input {
-        border: none;
-        border-bottom: 1px solid;
-        flex-grow: 2;
-        border-radius: none;
-        font-size: 16px;
-    }
-
-    button {
-        flex-grow: 1;
-    }
-`
-
 const SongList = ({ user = {} }) => {
     const userId = user?.uid
     const [songs, setSongs] = useState([])
@@ -78,7 +57,7 @@ const SongList = ({ user = {} }) => {
         const db = firebase.firestore()
         await db.collection('songs').add({
             name: newSongName,
-            tracks: [],
+            tracks: {},
             createdBy: userId,
             userIds: [userId],
         })

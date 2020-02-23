@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useRef } from 'react'
 import uuid from 'uuid/v4'
 import firebase from 'firebase/app'
 import styled from 'styled-components'
@@ -12,39 +12,21 @@ const TrackPanel = styled.input`
     margin: 10px;
 `
 
-const TrackWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-
-    div {
-        background-color: darkgrey;
-    }
-`
-
-const Track = ({ id, addNewTrack }) => {
-    const [track, setTrack] = useState({})
-    // const [name, setName] = useState('')
-    const input = useRef(null)
-    useEffect(() => {
-        const db = firebase.firestore()
-        db.collection('tracks')
-            .doc(id)
-            .onSnapshot(function(doc) {
-                setTrack(doc.data())
-            })
-    }, [id])
+const Track = ({ songId, id, track, addNewTrack }) => {
+    const videoInput = useRef(null)
 
     const onNameChange = (name) => {
         const db = firebase.firestore()
-        const trackRef = db.collection('tracks').doc(id)
-        trackRef.update({
-            name,
+        const songRef = db.collection('songs').doc(songId)
+        const trackNamePath = `tracks.${id}.name`
+        songRef.update({
+            [trackNamePath]: name,
         })
     }
 
     const uploadFile = async (e) => {
         const clipId = uuid()
-        const file = input.current.files[0]
+        const file = videoInput.current.files[0]
 
         const storageRef = firebase.storage().ref()
         const clipRef = storageRef.child(`clips/${clipId}.mp4`)
@@ -61,33 +43,36 @@ const Track = ({ id, addNewTrack }) => {
             })
 
         // Update track to include clip
-        await db
-            .collection('tracks')
-            .doc(id)
-            .update({ clips: firebase.firestore.FieldValue.arrayUnion(clipId) })
+        const songRef = db.collection('songs').doc(songId)
+        const clipPath = `tracks.${id}.clips.${clipId}`
+        await songRef.update({ [clipPath]: { url: downloadURL } })
     }
 
+    const clips = track?.clips
+    const clipIds = clips ? Object.keys(clips) : []
+
     return (
-        <TrackWrapper>
+        <div className="my-4">
             <input
+                className="text-grey bg-transparent my-4"
                 type="text"
                 placeholder="Track name"
                 value={track?.name || ''}
                 onChange={({ target: { value } }) => onNameChange(value)}
             />
-            <div>
-                {track?.clips?.length >= 1 ? (
-                    <Clip id={track.clips[0]} />
+            <div className="rounded bg-gray-800 ml-16">
+                {clipIds.length > 0 ? (
+                    <Clip id={clipIds[0]} />
                 ) : (
                     <TrackPanel
-                        ref={input}
+                        ref={videoInput}
                         onChange={uploadFile}
                         type="file"
                         accept="video/*"
                     />
                 )}
             </div>
-        </TrackWrapper>
+        </div>
     )
 }
 
