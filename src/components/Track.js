@@ -5,13 +5,6 @@ import styled from 'styled-components'
 
 import { Clip } from './index'
 
-const TrackPanel = styled.input`
-    display: inline-block;
-    height: 100px;
-    background-color: darkgrey;
-    margin: 10px;
-`
-
 const Track = ({ songId, id, track, addNewTrack }) => {
     const videoInput = useRef(null)
 
@@ -52,27 +45,32 @@ const Track = ({ songId, id, track, addNewTrack }) => {
     const clipIds = clips ? Object.keys(clips) : []
 
     return (
-        <div className="my-4">
+        <>
             <input
-                className="text-grey bg-transparent my-4"
+                className="text-grey bg-transparent"
                 type="text"
                 placeholder="Track name"
                 value={track?.name || ''}
                 onChange={({ target: { value } }) => onNameChange(value)}
             />
-            <div className="rounded bg-gray-800 ml-16">
+            <div
+                className="rounded-md bg-gray-800 border-dashed border-gray-900 border-2"
+                style={{ height: '100px' }}
+            >
                 {clipIds.length > 0 ? (
                     <Clip id={clipIds[0]} />
                 ) : (
-                    <TrackPanel
-                        ref={videoInput}
-                        onChange={uploadFile}
-                        type="file"
-                        accept="video/*"
-                    />
+                    <div className="inline">
+                        <input
+                            ref={videoInput}
+                            onChange={uploadFile}
+                            type="file"
+                            accept="video/*"
+                        />
+                    </div>
                 )}
             </div>
-        </div>
+        </>
     )
 }
 

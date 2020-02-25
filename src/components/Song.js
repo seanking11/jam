@@ -149,13 +149,12 @@ const Song = ({
     const trackIds = tracks ? Object.keys(tracks) : []
 
     return (
-        <div className="h-screen w-screen">
-            <div className="p-4 text-center border ">
-                <Link to="/songs" className="float-left">
-                    Back
-                </Link>
+        <div className="videoGrid bg-gray-900 text-gray-100">
+            <div className="p-4 flex flex-row justify-between border-b">
+                <Link to="/songs">Back</Link>
+
                 <input
-                    className="border-b"
+                    className="border-b bg-transparent"
                     type="text"
                     placeholder="Song title"
                     value={song?.name || ''}
@@ -163,55 +162,69 @@ const Song = ({
                         onSongNameChange(value)
                     }
                 />
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2">
-                <div className="border grid grid-cols-1 md:grid-cols-2 max-h-1/2">
-                    {videoRefs &&
-                        videoRefs.map((ref, i) => (
-                            <div key={i}>
-                                <video
-                                    key={clipUrls[i]}
-                                    src={clipUrls[i]}
-                                    ref={videoRefs[i]}
-                                ></video>
-                            </div>
-                        ))}
-
-                    {showRecorder && (
-                        <VideoRecorder
-                            onRecordingComplete={onRecordingComplete}
-                            onStartRecording={playWithDelay}
-                            countdownTime={COUNTDOWN_DELAY_MS}
-                        />
-                    )}
-                </div>
-
-                <div className="border">
+                <div className="inline">
                     <input
                         type="text"
                         placeholder="Friend's user ID"
                         value={friendId}
                         onChange={({ target: { value } }) => setFriendId(value)}
                     />
-                    <button onClick={onShareWithFriend}>
-                        Share with friend
-                    </button>
+                    <button onClick={onShareWithFriend}>Share</button>
                 </div>
             </div>
 
-            <div className="p-4 bg-gray-100 text-black">
-                <PlayPause onToggle={onTogglePlayPause} />
-                <label htmlFor="showRecorder">Show Recorder</label>
+            <div className="grid grid-cols-1 sm:grid-cols-2">
+                <div
+                    id="videos"
+                    className="grid grid-rows-2 md:grid-rows-none md:grid-cols-2"
+                >
+                    {videoRefs &&
+                        videoRefs.map((ref, i) => (
+                            <div className="videoGridItem">
+                                <div className="videoWrapper" key={i}>
+                                    <video
+                                        className="centeredVideo"
+                                        key={clipUrls[i]}
+                                        src={clipUrls[i]}
+                                        ref={videoRefs[i]}
+                                    ></video>
+                                </div>
+                            </div>
+                        ))}
+                </div>
+                {showRecorder && (
+                    <VideoRecorder
+                        onRecordingComplete={onRecordingComplete}
+                        onStartRecording={playWithDelay}
+                        countdownTime={COUNTDOWN_DELAY_MS}
+                    />
+                )}
+            </div>
 
-                <input
-                    id="showRecorder"
-                    type="checkbox"
-                    onClick={() => setShowRecorder(!showRecorder)}
-                    defaultChecked
-                    label="Show recorder"
-                />
-                {trackIds.length > 0 ? (
+            <div className="tracksContainer gap-4">
+                <div className="p-4 flex flex-row">
+                    <PlayPause onToggle={onTogglePlayPause} />
+
+                    <label className="ml-2" htmlFor="showRecorder">
+                        Show Recorder
+                    </label>
+                    <input
+                        id="showRecorder"
+                        type="checkbox"
+                        onClick={() => setShowRecorder(!showRecorder)}
+                        defaultChecked
+                        label="Show recorder"
+                        className="ml-2"
+                    />
+                </div>
+
+                <div className="p-2 flex justify-between">
+                    <span>00:00</span>
+                    <span className="mr-4">00:30</span>
+                </div>
+
+                {trackIds.length > 0 &&
                     trackIds.map((trackId) => (
                         <Track
                             key={trackId}
@@ -219,15 +232,7 @@ const Song = ({
                             track={tracks[trackId]}
                             songId={songId}
                         />
-                    ))
-                ) : (
-                    <div>
-                        <span role="img" aria-label="X">
-                            ❌
-                        </span>{' '}
-                        No tracks in this song, add one!
-                    </div>
-                )}
+                    ))}
 
                 <div onClick={addNewTrack}>
                     <span role="img" aria-label="Plus">

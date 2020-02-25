@@ -4,7 +4,7 @@ import firebase from 'firebase/app'
 
 const ClipVideo = styled.video`
     width: 150px;
-    height: 75px;
+    height: 100%;
 `
 
 const Clip = ({ id }) => {

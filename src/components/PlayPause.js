@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 
-const PlayPause = ({ onToggle = () => {} }) => {
+const PlayPause = ({ onToggle = () => {}, className }) => {
     const [isPlaying, setPlaying] = useState(false)
     return (
-        <div>
+        <div className={className}>
             {isPlaying ? (
                 <span
                     role="img"

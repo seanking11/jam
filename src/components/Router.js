@@ -1,7 +1,14 @@
 import React from 'react'
 import { BrowserRouter, Switch, Redirect } from 'react-router-dom'
 
-import { SongList, Song, LoginScreen, PublicRoute, PrivateRoute } from './'
+import {
+    SongList,
+    Song,
+    LoginScreen,
+    PublicRoute,
+    PrivateRoute,
+    VideoGrid,
+} from './'
 
 const Router = () => {
     return (
@@ -11,6 +18,7 @@ const Router = () => {
                 <PublicRoute exact path="/login" component={LoginScreen} />
 
                 <PrivateRoute exact path="/songs" component={SongList} />
+                <PrivateRoute exact path="/grid" component={VideoGrid} />
                 <PrivateRoute exact path="/songs/:songId" component={Song} />
             </Switch>
         </BrowserRouter>
