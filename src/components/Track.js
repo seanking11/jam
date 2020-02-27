@@ -41,18 +41,37 @@ const Track = ({ songId, id, track, addNewTrack }) => {
         await songRef.update({ [clipPath]: { url: downloadURL } })
     }
 
+    const onDeleteTrack = async () => {
+        const shouldDelete = window.confirm(
+            'Delete this track? You cannot undo this.'
+        )
+
+        if (shouldDelete) {
+            const db = firebase.firestore()
+            const songRef = db.collection('songs').doc(songId)
+            await songRef.update({
+                [`tracks.${id}`]: firebase.firestore.FieldValue.delete(),
+            })
+        }
+    }
+
     const clips = track?.clips
     const clipIds = clips ? Object.keys(clips) : []
 
     return (
         <>
-            <input
-                className="text-grey bg-transparent"
-                type="text"
-                placeholder="Track name"
-                value={track?.name || ''}
-                onChange={({ target: { value } }) => onNameChange(value)}
-            />
+            <div>
+                <input
+                    className="text-grey bg-transparent"
+                    type="text"
+                    placeholder="Track name"
+                    value={track?.name || ''}
+                    onChange={({ target: { value } }) => onNameChange(value)}
+                />
+                <span role="img" aria-label="Trash" onClick={onDeleteTrack}>
+                    🗑️
+                </span>
+            </div>
             <div
                 className="rounded-md bg-gray-800 border-dashed border-gray-900 border-2"
                 style={{ height: '100px' }}
