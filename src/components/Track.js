@@ -60,7 +60,7 @@ const Track = ({ songId, id, track, addNewTrack }) => {
 
     return (
         <>
-            <div>
+            <div className="p-2 inline">
                 <input
                     className="text-grey bg-transparent"
                     type="text"

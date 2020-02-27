@@ -172,7 +172,7 @@ const Song = ({
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2">
+            <div className="grid grid-cols-2">
                 {videoRefs && (
                     <VideoGrid>
                         {videoRefs.map((ref, i) => (
@@ -199,7 +199,7 @@ const Song = ({
                 )}
             </div>
 
-            <div className="tracksContainer gap-4">
+            <div className="tracksContainer gap-4 overflow-scroll scrolling-touch">
                 <div className="p-4 flex flex-row">
                     <PlayPause onToggle={onTogglePlayPause} />
 
@@ -231,7 +231,12 @@ const Song = ({
                         />
                     ))}
 
-                <div onClick={addNewTrack}>
+                {/* Intentionally empty to place the button below in the right spot */}
+                <div></div>
+                <div
+                    onClick={addNewTrack}
+                    className="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full cursor-pointer"
+                >
                     <span role="img" aria-label="Plus">
                         ➕
                     </span>{' '}

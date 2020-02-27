@@ -5,7 +5,14 @@ body {
         'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* overflow: hidden; Hide scrollbars */
+    overflow: hidden; /* Hide scrollbars */
+
+    @apply bg-gray-900 text-white;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
 }
 
 code {
@@ -56,7 +63,3 @@ code {
 #videos {
     min-height: 300px;
 }
-/* 
-#videos:last-child {
-    -ms-grid-row-span: 1/2;
-} */
