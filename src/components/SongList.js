@@ -17,7 +17,7 @@ const SongItem = styled(Link)`
     padding: 1rem;
     border: 1px solid #777777;
     font-size: 18px;
-    color: #777777;
+    color: #eee;
     text-align: left;
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2),
         0 4px 20px 0 rgba(0, 0, 0, 0.19);
