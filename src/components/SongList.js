@@ -64,6 +64,10 @@ const SongList = ({ user = {} }) => {
         setNewSongName('')
     }
 
+    const signOut = () => {
+        firebase.auth().signOut()
+    }
+
     // All songs associated to your userId will be fetched
     // Your songs are denoted by the createdBy
     const [yourSongs, sharedSongs] = _.partition(
@@ -112,7 +116,7 @@ const SongList = ({ user = {} }) => {
                         onChange={({ target: { value } }) =>
                             setNewSongName(value)
                         }
-                        className="border-b border-b-2 m-4 text-lg pb-2 flex-grow focus:outline-none focus:shadow-outline focus:red"
+                        className="bg-transparent m-4 text-lg flex-grow focus:outline-none focus:shadow-outline"
                     />
                     <button
                         type="button"
@@ -153,6 +157,13 @@ const SongList = ({ user = {} }) => {
                     </div>
                 )}
             </div>
+
+            <button type="button" onClick={signOut} className="float-right p-2">
+                <span role="img" aria-label="Wave">
+                    👋
+                </span>{' '}
+                Sign Out
+            </button>
         </div>
     )
 }
