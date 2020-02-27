@@ -24,11 +24,13 @@ const SignUp = ({ toggleVisibility, history, setUser }) => {
             {/* <form id='sign-up'> */}
             <input
                 type="text"
+                className="text-black"
                 placeholder="guitarguy69@gmail.com"
                 onChange={(e) => setEmail(e.target.value)}
             />
             <input
                 type="password"
+                className="text-black"
                 onChange={(e) => setPassword(e.target.value)}
             />
             {/* <button onSubmit={handleSignUp} form='sign-up'>Sign Up!</button> */}

@@ -148,7 +148,7 @@ const Song = ({
 
     return (
         <div className="videoGrid bg-gray-900 text-gray-100">
-            <div className="p-4 flex flex-row justify-between border-b">
+            <div className="p-4 flex flex-row justify-between">
                 <Link to="/songs">Back</Link>
 
                 <input
@@ -172,7 +172,7 @@ const Song = ({
                 </div>
             </div>
 
-            <div className="grid grid-cols-2">
+            <div className="grid grid-cols-2 border-b border-gray-800">
                 {videoRefs && (
                     <VideoGrid>
                         {videoRefs.map((ref, i) => (
@@ -181,9 +181,11 @@ const Song = ({
                                     <video
                                         className="centeredVideo"
                                         key={clipUrls[i]}
-                                        src={clipUrls[i]}
                                         ref={videoRefs[i]}
-                                    ></video>
+                                        type="video/mp4"
+                                    >
+                                        <source src={clipUrls[i]} />
+                                    </video>
                                 </div>
                             </div>
                         ))}

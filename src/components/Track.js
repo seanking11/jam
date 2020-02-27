@@ -68,7 +68,12 @@ const Track = ({ songId, id, track, addNewTrack }) => {
                     value={track?.name || ''}
                     onChange={({ target: { value } }) => onNameChange(value)}
                 />
-                <span role="img" aria-label="Trash" onClick={onDeleteTrack}>
+                <span
+                    role="img"
+                    aria-label="Trash"
+                    onClick={onDeleteTrack}
+                    className="cursor-pointer"
+                >
                     🗑️
                 </span>
             </div>

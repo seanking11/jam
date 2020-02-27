@@ -24,11 +24,13 @@ const SignIn = ({ toggleVisibility, setUser, history }) => {
             <h4>Sign In</h4>
             <input
                 type="text"
+                className="text-black"
                 placeholder="guitarguy69@gmail.com"
                 onChange={(e) => setEmail(e.target.value)}
             />
             <input
                 type="password"
+                className="text-black"
                 onChange={(e) => setPassword(e.target.value)}
             />
             <button onClick={handleSignIn}>Sign In</button>
