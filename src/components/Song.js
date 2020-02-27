@@ -5,7 +5,7 @@ import firebase from 'firebase'
 import VideoRecorder from 'react-video-recorder'
 import uuid from 'uuid/v4'
 
-import { Track, PlayPause } from './index'
+import { Track, PlayPause, VideoGrid } from './index'
 
 const COUNTDOWN_DELAY_MS = 3000
 
@@ -87,9 +87,7 @@ const Song = ({
     }
 
     const onRecordingComplete = async (videoBlob) => {
-        // Pause the video and hide the recorder
         onPause()
-        setShowRecorder(false)
         const clipId = uuid()
 
         const storageRef = firebase.storage().ref()
@@ -154,7 +152,7 @@ const Song = ({
                 <Link to="/songs">Back</Link>
 
                 <input
-                    className="border-b bg-transparent"
+                    className="bg-transparent text-center outline-none focus:shadow-outline"
                     type="text"
                     placeholder="Song title"
                     value={song?.name || ''}
@@ -175,12 +173,9 @@ const Song = ({
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2">
-                <div
-                    id="videos"
-                    className="grid grid-rows-2 md:grid-rows-none md:grid-cols-2"
-                >
-                    {videoRefs &&
-                        videoRefs.map((ref, i) => (
+                {videoRefs && (
+                    <VideoGrid>
+                        {videoRefs.map((ref, i) => (
                             <div className="videoGridItem">
                                 <div className="videoWrapper" key={i}>
                                     <video
@@ -192,7 +187,9 @@ const Song = ({
                                 </div>
                             </div>
                         ))}
-                </div>
+                    </VideoGrid>
+                )}
+
                 {showRecorder && (
                     <VideoRecorder
                         onRecordingComplete={onRecordingComplete}

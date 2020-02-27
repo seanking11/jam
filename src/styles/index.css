@@ -52,3 +52,11 @@ code {
     width: 100%;
     object-fit: cover;
 }
+
+#videos {
+    min-height: 300px;
+}
+/* 
+#videos:last-child {
+    -ms-grid-row-span: 1/2;
+} */
