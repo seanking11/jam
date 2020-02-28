@@ -182,10 +182,9 @@ const Song = ({
                                         className="centeredVideo"
                                         key={clipUrls[i]}
                                         ref={videoRefs[i]}
+                                        src={clipUrls[i]}
                                         type="video/mp4"
-                                    >
-                                        <source src={clipUrls[i]} />
-                                    </video>
+                                    />
                                 </div>
                             </div>
                         ))}
@@ -237,7 +236,7 @@ const Song = ({
                 <div></div>
                 <div
                     onClick={addNewTrack}
-                    className="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full cursor-pointer"
+                    className="bg-gray-800 h-12 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full cursor-pointer center"
                 >
                     <span role="img" aria-label="Plus">
                         ➕
