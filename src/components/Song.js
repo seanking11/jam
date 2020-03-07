@@ -93,7 +93,9 @@ const Song = ({
         const storageRef = firebase.storage().ref()
         const clipRef = storageRef.child(`clips/${clipId}.mp4`)
         // Upload clip
-        const uploadTask = await clipRef.put(videoBlob)
+        const uploadTask = await clipRef.put(videoBlob, {
+            contentType: 'video/mp4',
+        })
         const downloadURL = await uploadTask.ref.getDownloadURL()
         // Create clip document
         const db = firebase.firestore()
@@ -129,6 +131,15 @@ const Song = ({
         setIsPlaying(true)
     }, [videoRefs])
 
+    const onSeek = useCallback(
+        (seekToTime = 0) => {
+            _.each(videoRefs, (ref) => {
+                ref.current.currentTime = seekToTime
+            })
+        },
+        [videoRefs]
+    )
+
     const onTogglePlayPause = useCallback(() => {
         if (isPlaying) {
             onPause()
@@ -138,10 +149,11 @@ const Song = ({
     }, [onPause, onPlay, isPlaying])
 
     const playWithDelay = useCallback(() => {
+        onSeek(0)
         setTimeout(() => {
             onPlay()
         }, COUNTDOWN_DELAY_MS)
-    }, [onPlay])
+    }, [onPlay, onSeek])
 
     const tracks = song?.tracks
     const trackIds = tracks ? Object.keys(tracks) : []
@@ -176,8 +188,8 @@ const Song = ({
                 {videoRefs && (
                     <VideoGrid>
                         {videoRefs.map((ref, i) => (
-                            <div className="videoGridItem">
-                                <div className="videoWrapper" key={i}>
+                            <div className="videoGridItem" key={i}>
+                                <div className="videoWrapper">
                                     <video
                                         className="centeredVideo"
                                         key={clipUrls[i]}
