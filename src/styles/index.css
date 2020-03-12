@@ -25,11 +25,36 @@ code {
 @tailwind components;
 
 @tailwind utilities;
-
-.videoGrid {
+/* 
+.screenGrid {
     @apply w-screen h-screen grid;
 
     grid-template-rows: minmax(50px, 5fr) 35fr 60fr;
+    transition: all 0.75s;
+}
+
+.screenGrid:hover {
+    grid-template-rows: minmax(50px, 5fr) 90fr 5fr;
+} */
+
+.fullscreen {
+    height: 92vh !important;
+}
+
+#videoGrid {
+    height: 40vh;
+    width: 100vw;
+    transition: all 0.5s;
+}
+
+.screen {
+    height: 100vh;
+    width: 100vw;
+}
+
+.friends {
+    height: 100px;
+    width: 100vw;
 }
 
 .tracksContainer {
@@ -60,6 +85,7 @@ code {
     object-fit: cover;
 }
 
-#videos {
-    min-height: 300px;
+.navItem {
+    flex: 1;
+    display: flex;
 }

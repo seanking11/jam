@@ -4,8 +4,19 @@ import { Link } from 'react-router-dom'
 import firebase from 'firebase'
 import VideoRecorder from 'react-video-recorder'
 import uuid from 'uuid/v4'
+import {
+    faChevronLeft,
+    faChevronDown,
+    faChevronUp,
+} from '@fortawesome/free-solid-svg-icons'
+import {
+    faPauseCircle,
+    faPlayCircle,
+} from '@fortawesome/free-regular-svg-icons'
 
-import { Track, PlayPause, VideoGrid } from './index'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+import { Track, ToggleButton, VideoGrid } from './index'
 
 const COUNTDOWN_DELAY_MS = 3000
 
@@ -155,36 +166,26 @@ const Song = ({
         }, COUNTDOWN_DELAY_MS)
     }, [onPlay, onSeek])
 
+    const onToggleFullscreen = () => {
+        const className = 'fullscreen'
+        const classList = document.getElementById('videoGrid').classList
+
+        if (classList.contains(className)) {
+            classList.remove(className)
+        } else {
+            classList.add(className)
+        }
+    }
+
     const tracks = song?.tracks
     const trackIds = tracks ? Object.keys(tracks) : []
 
     return (
-        <div className="videoGrid bg-gray-900 text-gray-100">
-            <div className="p-4 flex flex-row justify-between">
-                <Link to="/songs">Back</Link>
-
-                <input
-                    className="bg-transparent text-center outline-none focus:shadow-outline"
-                    type="text"
-                    placeholder="Song title"
-                    value={song?.name || ''}
-                    onChange={({ target: { value } }) =>
-                        onSongNameChange(value)
-                    }
-                />
-
-                <div className="inline">
-                    <input
-                        type="text"
-                        placeholder="Friend's user ID"
-                        value={friendId}
-                        onChange={({ target: { value } }) => setFriendId(value)}
-                    />
-                    <button onClick={onShareWithFriend}>Share</button>
-                </div>
-            </div>
-
-            <div className="grid grid-cols-2 border-b border-gray-800">
+        <div className="screen bg-gray-900 text-gray-100">
+            <div
+                id="videoGrid"
+                className="grid grid-cols-2 border-b border-gray-800"
+            >
                 {videoRefs && (
                     <VideoGrid>
                         {videoRefs.map((ref, i) => (
@@ -212,11 +213,48 @@ const Song = ({
                 )}
             </div>
 
+            <div>
+                <div className="p-4 flex items-center">
+                    <div className="navItem" style={{ marginRight: 'auto' }}>
+                        <Link to="/songs">
+                            <FontAwesomeIcon icon={faChevronLeft} />
+                        </Link>
+
+                        <input
+                            className="bg-transparent ml-4 outline-none focus:shadow-outline"
+                            type="text"
+                            placeholder="Song title"
+                            value={song?.name || ''}
+                            onChange={({ target: { value } }) =>
+                                onSongNameChange(value)
+                            }
+                        />
+                    </div>
+
+                    <ToggleButton
+                        id="pausePlay"
+                        onToggle={onTogglePlayPause}
+                        iconA={faPlayCircle}
+                        iconB={faPauseCircle}
+                        size="2x"
+                        className="navItem justify-center flex"
+                    />
+
+                    <ToggleButton
+                        className="navItem justify-end"
+                        iconA={faChevronDown}
+                        iconB={faChevronUp}
+                        id="fullscreenToggle"
+                        onToggle={onToggleFullscreen}
+                        size="lg"
+                        style={{ marginLeft: 'auto' }}
+                    />
+                </div>
+            </div>
+
             <div className="tracksContainer gap-4 overflow-scroll scrolling-touch">
                 <div className="p-4 flex flex-row">
-                    <PlayPause onToggle={onTogglePlayPause} />
-
-                    <label className="ml-2" htmlFor="showRecorder">
+                    {/* <label className="ml-2" htmlFor="showRecorder">
                         Show Recorder
                     </label>
                     <input
@@ -226,7 +264,19 @@ const Song = ({
                         defaultChecked
                         label="Show recorder"
                         className="ml-2"
-                    />
+                    /> */}
+
+                    <div className="inline">
+                        <input
+                            type="text"
+                            placeholder="Friend's user ID"
+                            value={friendId}
+                            onChange={({ target: { value } }) =>
+                                setFriendId(value)
+                            }
+                        />
+                        <button onClick={onShareWithFriend}>Share</button>
+                    </div>
                 </div>
 
                 <div className="p-2 flex justify-between">
