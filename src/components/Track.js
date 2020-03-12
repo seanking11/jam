@@ -78,11 +78,11 @@ const Track = ({ songId, id, track, addNewTrack }) => {
                 </span>
             </div>
             <div
-                className="rounded-md bg-gray-800 border-dashed border-gray-900 border-2"
+                className="relative rounded-md bg-gray-800 border-dashed border-gray-900 border-2"
                 style={{ height: '100px' }}
             >
                 {clipIds.length > 0 ? (
-                    <Clip id={clipIds[0]} />
+                    <Clip clip={clips[clipIds[0]]} />
                 ) : (
                     <div className="inline">
                         <input

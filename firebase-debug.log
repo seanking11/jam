@@ -1,0 +1,287 @@
+[debug] [2020-03-11T04:30:37.560Z] ----------------------------------------------------------------------
+[debug] [2020-03-11T04:30:37.562Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve --only functions
+[debug] [2020-03-11T04:30:37.562Z] CLI Version:   7.12.1
+[debug] [2020-03-11T04:30:37.562Z] Platform:      darwin
+[debug] [2020-03-11T04:30:37.563Z] Node Version:  v10.12.0
+[debug] [2020-03-11T04:30:37.564Z] Time:          Tue Mar 10 2020 21:30:37 GMT-0700 (Pacific Daylight Time)
+[debug] [2020-03-11T04:30:37.564Z] ----------------------------------------------------------------------
+[debug] [2020-03-11T04:30:37.564Z] 
+[debug] [2020-03-11T04:30:37.577Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-03-11T04:30:37.577Z] > authorizing via signed-in user
+[debug] [2020-03-11T04:30:37.577Z] [iam] checking project jams-b177f for permissions ["firebase.projects.get"]
+[debug] [2020-03-11T04:30:37.580Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/jams-b177f:testIamPermissions  
+
+[debug] [2020-03-11T04:30:37.761Z] <<< HTTP RESPONSE 200
+[debug] [2020-03-11T04:30:37.763Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/jams-b177f  
+ 
+[debug] [2020-03-11T04:30:37.967Z] <<< HTTP RESPONSE 200
+[warn] ⚠  Your requested "node" version "8" doesn't match your global version "10"
+[info] ✔  functions: Emulator started at http://localhost:5000
+[info] i  functions: Watching "/Users/seanking/code/jam/functions" for Cloud Functions...
+[debug] [2020-03-11T04:30:38.256Z] [worker-pool] addWorker(~diagnostic~)
+[debug] [2020-03-11T04:30:38.257Z] [worker-pool] Adding worker with key ~diagnostic~, total=1
+[debug] [2020-03-11T04:30:38.257Z] [worker-pool] submitWork(triggerId=)
+[debug] [2020-03-11T04:30:38.257Z] [worker-~diagnostic~-ff3d15b8-1f5e-4912-8ed8-08e9db472fad]: Assigning socketPath: /var/folders/49/phscv8355ss17phlv_mjfd_r0000gn/T/fire_emu_6138.sock
+[debug] [2020-03-11T04:30:38.258Z] [worker-~diagnostic~-ff3d15b8-1f5e-4912-8ed8-08e9db472fad]: BUSY
+[debug] [2020-03-11T04:30:38.592Z] [runtime-status] [6138] Functions runtime initialized. {"cwd":"/Users/seanking/code/jam/functions","node_version":"10.12.0"}
+[debug] [2020-03-11T04:30:38.594Z] [runtime-status] [6138] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true,"pubsub_emulator":true}
+[debug] [2020-03-11T04:30:38.596Z] [runtime-status] [6138] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.2","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-11T04:30:38.597Z] [runtime-status] [6138] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-11T04:30:38.598Z] [runtime-status] [6138] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-functions/lib/index.js"}
+[info] ✔  functions[uploadClip]: http function initialized (http://localhost:5000/jams-b177f/us-central1/uploadClip).
+[debug] [2020-03-11T04:30:38.649Z] [worker-~diagnostic~-ff3d15b8-1f5e-4912-8ed8-08e9db472fad]: IDLE
+[debug] [2020-03-11T04:33:06.593Z] File /Users/seanking/code/jam/functions/index.js changed, reloading triggers
+[debug] [2020-03-11T04:33:07.599Z] [worker-pool] Shutting down IDLE worker (~diagnostic~)
+[debug] [2020-03-11T04:33:07.599Z] [worker-~diagnostic~-ff3d15b8-1f5e-4912-8ed8-08e9db472fad]: FINISHING
+[debug] [2020-03-11T04:33:07.605Z] [worker-pool] addWorker(~diagnostic~)
+[debug] [2020-03-11T04:33:07.605Z] [worker-pool] Adding worker with key ~diagnostic~, total=2
+[debug] [2020-03-11T04:33:07.605Z] [worker-pool] submitWork(triggerId=)
+[debug] [2020-03-11T04:33:07.605Z] [worker-~diagnostic~-478da397-c1c8-41e9-9c54-ea9434d38015]: Assigning socketPath: /var/folders/49/phscv8355ss17phlv_mjfd_r0000gn/T/fire_emu_6153.sock
+[debug] [2020-03-11T04:33:07.605Z] [worker-~diagnostic~-478da397-c1c8-41e9-9c54-ea9434d38015]: BUSY
+[debug] [2020-03-11T04:33:07.608Z] [worker-~diagnostic~-ff3d15b8-1f5e-4912-8ed8-08e9db472fad]: exited
+[debug] [2020-03-11T04:33:07.608Z] [worker-~diagnostic~-ff3d15b8-1f5e-4912-8ed8-08e9db472fad]: FINISHED
+[debug] [2020-03-11T04:33:07.948Z] [runtime-status] [6153] Functions runtime initialized. {"cwd":"/Users/seanking/code/jam/functions","node_version":"10.12.0"}
+[debug] [2020-03-11T04:33:07.951Z] [runtime-status] [6153] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true,"pubsub_emulator":true}
+[debug] [2020-03-11T04:33:07.953Z] [runtime-status] [6153] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.2","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-11T04:33:07.954Z] [runtime-status] [6153] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-11T04:33:07.955Z] [runtime-status] [6153] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-11T04:33:08.009Z] [worker-~diagnostic~-478da397-c1c8-41e9-9c54-ea9434d38015]: IDLE
+[debug] [2020-03-11T04:33:19.710Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-11T04:33:19.710Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-11T04:33:19.710Z] Accepted request GET /jams-b177f/us-central1/uploadClip --> uploadClip
+[debug] [2020-03-11T04:33:19.710Z] [worker-pool] Cleaned up workers for ~diagnostic~: 2 --> 1
+[debug] [2020-03-11T04:33:19.715Z] [worker-pool] addWorker(uploadClip)
+[debug] [2020-03-11T04:33:19.715Z] [worker-pool] Adding worker with key uploadClip, total=1
+[debug] [2020-03-11T04:33:19.716Z] [worker-pool] submitWork(triggerId=uploadClip)
+[debug] [2020-03-11T04:33:19.716Z] [worker-uploadClip-07400a3d-9036-4d1c-afc7-8b2a29a8989a]: Assigning socketPath: /var/folders/49/phscv8355ss17phlv_mjfd_r0000gn/T/fire_emu_6391.sock
+[debug] [2020-03-11T04:33:19.716Z] [worker-uploadClip-07400a3d-9036-4d1c-afc7-8b2a29a8989a]: BUSY
+[debug] [2020-03-11T04:33:20.023Z] [runtime-status] [6391] Functions runtime initialized. {"cwd":"/Users/seanking/code/jam/functions","node_version":"10.12.0"}
+[debug] [2020-03-11T04:33:20.025Z] [runtime-status] [6391] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true,"pubsub_emulator":true}
+[debug] [2020-03-11T04:33:20.027Z] [runtime-status] [6391] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.2","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-11T04:33:20.028Z] [runtime-status] [6391] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-11T04:33:20.029Z] [runtime-status] [6391] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-11T04:33:20.076Z] [runtime-status] [6391] Trigger "uploadClip" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "uploadClip"
+[debug] [2020-03-11T04:33:20.077Z] [runtime-status] [6391] triggerDefinition {"httpsTrigger":{},"name":"uploadClip","entryPoint":"uploadClip"}
+[debug] [2020-03-11T04:33:20.077Z] [runtime-status] [6391] Running uploadClip in mode HTTPS
+[debug] [2020-03-11T04:33:20.081Z] [runtime-status] [6391] Attempting to listen to socketPath: /var/folders/49/phscv8355ss17phlv_mjfd_r0000gn/T/fire_emu_6391.sock
+[debug] [2020-03-11T04:33:20.086Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-11T04:33:20.092Z] [runtime-status] [6391] Ephemeral server handling GET request
+[info] >  [ '_events',
+[info] >    '_eventsCount',
+[info] >    '_maxListeners',
+[info] >    'output',
+[info] >    'outputEncodings',
+[info] >    'outputCallbacks',
+[info] >    'outputSize',
+[info] >    'writable',
+[info] >    '_last',
+[info] >    'chunkedEncoding',
+[info] >    'shouldKeepAlive',
+[info] >    'useChunkedEncodingByDefault',
+[info] >    'sendDate',
+[info] >    '_removedConnection',
+[info] >    '_removedContLen',
+[info] >    '_removedTE',
+[info] >    '_contentLength',
+[info] >    '_hasBody',
+[info] >    '_trailer',
+[info] >    'finished',
+[info] >    '_headerSent',
+[info] >    'socket',
+[info] >    'connection',
+[info] >    '_header',
+[info] >    '_onPendingData',
+[info] >    '_sent100',
+[info] >    '_expect_continue',
+[info] >    'req',
+[info] >    'locals' ]
+[debug] [2020-03-11T04:33:20.106Z] [runtime-status] [6391] Ephemeral server survived.
+[info] i  functions: Finished "uploadClip" in ~1s
+[debug] [2020-03-11T04:33:20.107Z] [worker-uploadClip-07400a3d-9036-4d1c-afc7-8b2a29a8989a]: IDLE
+[debug] [2020-03-11T04:33:20.107Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-11T04:34:20.620Z] File /Users/seanking/code/jam/functions/index.js changed, reloading triggers
+[debug] [2020-03-11T04:34:21.621Z] [worker-pool] Shutting down IDLE worker (~diagnostic~)
+[debug] [2020-03-11T04:34:21.621Z] [worker-~diagnostic~-478da397-c1c8-41e9-9c54-ea9434d38015]: FINISHING
+[debug] [2020-03-11T04:34:21.621Z] [worker-pool] Shutting down IDLE worker (uploadClip)
+[debug] [2020-03-11T04:34:21.621Z] [worker-uploadClip-07400a3d-9036-4d1c-afc7-8b2a29a8989a]: FINISHING
+[debug] [2020-03-11T04:34:21.628Z] [worker-pool] addWorker(~diagnostic~)
+[debug] [2020-03-11T04:34:21.628Z] [worker-pool] Adding worker with key ~diagnostic~, total=2
+[debug] [2020-03-11T04:34:21.628Z] [worker-pool] submitWork(triggerId=)
+[debug] [2020-03-11T04:34:21.628Z] [worker-~diagnostic~-0773c304-3378-40d3-8600-8b252658ba10]: Assigning socketPath: /var/folders/49/phscv8355ss17phlv_mjfd_r0000gn/T/fire_emu_6397.sock
+[debug] [2020-03-11T04:34:21.628Z] [worker-~diagnostic~-0773c304-3378-40d3-8600-8b252658ba10]: BUSY
+[debug] [2020-03-11T04:34:21.629Z] [worker-~diagnostic~-478da397-c1c8-41e9-9c54-ea9434d38015]: exited
+[debug] [2020-03-11T04:34:21.629Z] [worker-~diagnostic~-478da397-c1c8-41e9-9c54-ea9434d38015]: FINISHED
+[debug] [2020-03-11T04:34:21.630Z] [worker-uploadClip-07400a3d-9036-4d1c-afc7-8b2a29a8989a]: exited
+[debug] [2020-03-11T04:34:21.630Z] [worker-uploadClip-07400a3d-9036-4d1c-afc7-8b2a29a8989a]: FINISHED
+[debug] [2020-03-11T04:34:21.982Z] [runtime-status] [6397] Functions runtime initialized. {"cwd":"/Users/seanking/code/jam/functions","node_version":"10.12.0"}
+[debug] [2020-03-11T04:34:21.984Z] [runtime-status] [6397] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true,"pubsub_emulator":true}
+[debug] [2020-03-11T04:34:21.987Z] [runtime-status] [6397] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.2","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-11T04:34:21.988Z] [runtime-status] [6397] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-11T04:34:21.989Z] [runtime-status] [6397] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-11T04:34:22.040Z] [worker-~diagnostic~-0773c304-3378-40d3-8600-8b252658ba10]: IDLE
+[debug] [2020-03-11T04:34:24.540Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-11T04:34:24.540Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-11T04:34:24.541Z] Accepted request GET /jams-b177f/us-central1/uploadClip --> uploadClip
+[debug] [2020-03-11T04:34:24.541Z] [worker-pool] Cleaned up workers for ~diagnostic~: 2 --> 1
+[debug] [2020-03-11T04:34:24.541Z] [worker-pool] Cleaned up workers for uploadClip: 1 --> 0
+[debug] [2020-03-11T04:34:24.543Z] [worker-pool] addWorker(uploadClip)
+[debug] [2020-03-11T04:34:24.543Z] [worker-pool] Adding worker with key uploadClip, total=1
+[debug] [2020-03-11T04:34:24.543Z] [worker-pool] submitWork(triggerId=uploadClip)
+[debug] [2020-03-11T04:34:24.543Z] [worker-uploadClip-7dd0e527-8236-4ad2-81d6-ec2ac8fc21d8]: Assigning socketPath: /var/folders/49/phscv8355ss17phlv_mjfd_r0000gn/T/fire_emu_6407.sock
+[debug] [2020-03-11T04:34:24.543Z] [worker-uploadClip-7dd0e527-8236-4ad2-81d6-ec2ac8fc21d8]: BUSY
+[debug] [2020-03-11T04:34:24.846Z] [runtime-status] [6407] Functions runtime initialized. {"cwd":"/Users/seanking/code/jam/functions","node_version":"10.12.0"}
+[debug] [2020-03-11T04:34:24.849Z] [runtime-status] [6407] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true,"pubsub_emulator":true}
+[debug] [2020-03-11T04:34:24.851Z] [runtime-status] [6407] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.2","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-11T04:34:24.853Z] [runtime-status] [6407] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-11T04:34:24.854Z] [runtime-status] [6407] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-11T04:34:24.899Z] [runtime-status] [6407] Trigger "uploadClip" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "uploadClip"
+[debug] [2020-03-11T04:34:24.899Z] [runtime-status] [6407] triggerDefinition {"httpsTrigger":{},"name":"uploadClip","entryPoint":"uploadClip"}
+[debug] [2020-03-11T04:34:24.899Z] [runtime-status] [6407] Running uploadClip in mode HTTPS
+[debug] [2020-03-11T04:34:24.904Z] [runtime-status] [6407] Attempting to listen to socketPath: /var/folders/49/phscv8355ss17phlv_mjfd_r0000gn/T/fire_emu_6407.sock
+[debug] [2020-03-11T04:34:24.908Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-11T04:34:24.913Z] [runtime-status] [6407] Ephemeral server handling GET request
+[info] >  {}
+[debug] [2020-03-11T04:34:24.925Z] [runtime-status] [6407] Ephemeral server survived.
+[info] i  functions: Finished "uploadClip" in ~1s
+[debug] [2020-03-11T04:34:24.926Z] [worker-uploadClip-7dd0e527-8236-4ad2-81d6-ec2ac8fc21d8]: IDLE
+[debug] [2020-03-11T04:34:24.926Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-11T04:34:32.331Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-11T04:34:32.332Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-11T04:34:32.332Z] Accepted request GET /jams-b177f/us-central1/uploadClip --> uploadClip
+[debug] [2020-03-11T04:34:32.332Z] [worker-pool] submitWork(triggerId=uploadClip)
+[debug] [2020-03-11T04:34:32.332Z] [worker-uploadClip-7dd0e527-8236-4ad2-81d6-ec2ac8fc21d8]: Assigning socketPath: /var/folders/49/phscv8355ss17phlv_mjfd_r0000gn/T/fire_emu_6407.sock
+[debug] [2020-03-11T04:34:32.332Z] [worker-uploadClip-7dd0e527-8236-4ad2-81d6-ec2ac8fc21d8]: BUSY
+[debug] [2020-03-11T04:34:32.332Z] [runtime-status] [6407] Trigger "uploadClip" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "uploadClip"
+[debug] [2020-03-11T04:34:32.333Z] [runtime-status] [6407] triggerDefinition {"httpsTrigger":{},"name":"uploadClip","entryPoint":"uploadClip"}
+[debug] [2020-03-11T04:34:32.333Z] [runtime-status] [6407] Running uploadClip in mode HTTPS
+[debug] [2020-03-11T04:34:32.333Z] [runtime-status] [6407] Attempting to listen to socketPath: /var/folders/49/phscv8355ss17phlv_mjfd_r0000gn/T/fire_emu_6407.sock
+[debug] [2020-03-11T04:34:32.334Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-11T04:34:32.335Z] [runtime-status] [6407] Ephemeral server handling GET request
+[info] >  {}
+[debug] [2020-03-11T04:34:32.336Z] [runtime-status] [6407] Ephemeral server survived.
+[info] i  functions: Finished "uploadClip" in ~1s
+[debug] [2020-03-11T04:34:32.337Z] [worker-uploadClip-7dd0e527-8236-4ad2-81d6-ec2ac8fc21d8]: IDLE
+[debug] [2020-03-11T04:34:32.337Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-11T04:37:14.553Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-11T04:37:14.553Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-11T04:37:14.553Z] Accepted request POST /jams-b177f/us-central1/uploadClip --> uploadClip
+[debug] [2020-03-11T04:37:14.553Z] [worker-pool] submitWork(triggerId=uploadClip)
+[debug] [2020-03-11T04:37:14.553Z] [worker-uploadClip-7dd0e527-8236-4ad2-81d6-ec2ac8fc21d8]: Assigning socketPath: /var/folders/49/phscv8355ss17phlv_mjfd_r0000gn/T/fire_emu_6407.sock
+[debug] [2020-03-11T04:37:14.553Z] [worker-uploadClip-7dd0e527-8236-4ad2-81d6-ec2ac8fc21d8]: BUSY
+[debug] [2020-03-11T04:37:14.554Z] [runtime-status] [6407] Trigger "uploadClip" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "uploadClip"
+[debug] [2020-03-11T04:37:14.554Z] [runtime-status] [6407] triggerDefinition {"httpsTrigger":{},"name":"uploadClip","entryPoint":"uploadClip"}
+[debug] [2020-03-11T04:37:14.554Z] [runtime-status] [6407] Running uploadClip in mode HTTPS
+[debug] [2020-03-11T04:37:14.554Z] [runtime-status] [6407] Attempting to listen to socketPath: /var/folders/49/phscv8355ss17phlv_mjfd_r0000gn/T/fire_emu_6407.sock
+[debug] [2020-03-11T04:37:14.555Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-11T04:37:14.574Z] [runtime-status] [6407] Ephemeral server handling POST request
+[info] >  { hey: '' }
+[debug] [2020-03-11T04:37:14.577Z] [runtime-status] [6407] Ephemeral server survived.
+[info] i  functions: Finished "uploadClip" in ~1s
+[debug] [2020-03-11T04:37:14.577Z] [worker-uploadClip-7dd0e527-8236-4ad2-81d6-ec2ac8fc21d8]: IDLE
+[debug] [2020-03-11T04:37:14.578Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-11T04:37:31.122Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-11T04:37:31.122Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-11T04:37:31.122Z] Accepted request POST /jams-b177f/us-central1/uploadClip --> uploadClip
+[debug] [2020-03-11T04:37:31.122Z] [worker-pool] submitWork(triggerId=uploadClip)
+[debug] [2020-03-11T04:37:31.122Z] [worker-uploadClip-7dd0e527-8236-4ad2-81d6-ec2ac8fc21d8]: Assigning socketPath: /var/folders/49/phscv8355ss17phlv_mjfd_r0000gn/T/fire_emu_6407.sock
+[debug] [2020-03-11T04:37:31.122Z] [worker-uploadClip-7dd0e527-8236-4ad2-81d6-ec2ac8fc21d8]: BUSY
+[debug] [2020-03-11T04:37:31.123Z] [runtime-status] [6407] Trigger "uploadClip" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "uploadClip"
+[debug] [2020-03-11T04:37:31.123Z] [runtime-status] [6407] triggerDefinition {"httpsTrigger":{},"name":"uploadClip","entryPoint":"uploadClip"}
+[debug] [2020-03-11T04:37:31.123Z] [runtime-status] [6407] Running uploadClip in mode HTTPS
+[debug] [2020-03-11T04:37:31.124Z] [runtime-status] [6407] Attempting to listen to socketPath: /var/folders/49/phscv8355ss17phlv_mjfd_r0000gn/T/fire_emu_6407.sock
+[debug] [2020-03-11T04:37:31.124Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-11T04:37:31.126Z] [runtime-status] [6407] Ephemeral server handling POST request
+[info] >  { '{': '' }
+[debug] [2020-03-11T04:37:31.127Z] [runtime-status] [6407] Ephemeral server survived.
+[info] i  functions: Finished "uploadClip" in ~1s
+[debug] [2020-03-11T04:37:31.128Z] [worker-uploadClip-7dd0e527-8236-4ad2-81d6-ec2ac8fc21d8]: IDLE
+[debug] [2020-03-11T04:37:31.128Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-11T04:39:02.385Z] File /Users/seanking/code/jam/functions/index.js changed, reloading triggers
+[debug] [2020-03-11T04:39:03.389Z] [worker-pool] Shutting down IDLE worker (~diagnostic~)
+[debug] [2020-03-11T04:39:03.389Z] [worker-~diagnostic~-0773c304-3378-40d3-8600-8b252658ba10]: FINISHING
+[debug] [2020-03-11T04:39:03.389Z] [worker-pool] Shutting down IDLE worker (uploadClip)
+[debug] [2020-03-11T04:39:03.390Z] [worker-uploadClip-7dd0e527-8236-4ad2-81d6-ec2ac8fc21d8]: FINISHING
+[debug] [2020-03-11T04:39:03.395Z] [worker-pool] addWorker(~diagnostic~)
+[debug] [2020-03-11T04:39:03.395Z] [worker-pool] Adding worker with key ~diagnostic~, total=2
+[debug] [2020-03-11T04:39:03.395Z] [worker-pool] submitWork(triggerId=)
+[debug] [2020-03-11T04:39:03.395Z] [worker-~diagnostic~-3e474dff-614d-4f66-b104-75d295127b52]: Assigning socketPath: /var/folders/49/phscv8355ss17phlv_mjfd_r0000gn/T/fire_emu_6439.sock
+[debug] [2020-03-11T04:39:03.395Z] [worker-~diagnostic~-3e474dff-614d-4f66-b104-75d295127b52]: BUSY
+[debug] [2020-03-11T04:39:03.397Z] [worker-~diagnostic~-0773c304-3378-40d3-8600-8b252658ba10]: exited
+[debug] [2020-03-11T04:39:03.397Z] [worker-~diagnostic~-0773c304-3378-40d3-8600-8b252658ba10]: FINISHED
+[debug] [2020-03-11T04:39:03.398Z] [worker-uploadClip-7dd0e527-8236-4ad2-81d6-ec2ac8fc21d8]: exited
+[debug] [2020-03-11T04:39:03.398Z] [worker-uploadClip-7dd0e527-8236-4ad2-81d6-ec2ac8fc21d8]: FINISHED
+[debug] [2020-03-11T04:39:03.711Z] [runtime-status] [6439] Functions runtime initialized. {"cwd":"/Users/seanking/code/jam/functions","node_version":"10.12.0"}
+[debug] [2020-03-11T04:39:03.714Z] [runtime-status] [6439] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true,"pubsub_emulator":true}
+[debug] [2020-03-11T04:39:03.716Z] [runtime-status] [6439] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.2","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-11T04:39:03.717Z] [runtime-status] [6439] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-11T04:39:03.718Z] [runtime-status] [6439] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-11T04:39:03.773Z] [worker-~diagnostic~-3e474dff-614d-4f66-b104-75d295127b52]: IDLE
+[debug] [2020-03-11T04:43:21.170Z] File /Users/seanking/code/jam/functions/index.js changed, reloading triggers
+[debug] [2020-03-11T04:43:22.173Z] [worker-pool] Shutting down IDLE worker (~diagnostic~)
+[debug] [2020-03-11T04:43:22.173Z] [worker-~diagnostic~-3e474dff-614d-4f66-b104-75d295127b52]: FINISHING
+[debug] [2020-03-11T04:43:22.173Z] [worker-pool] Cleaned up workers for ~diagnostic~: 2 --> 1
+[debug] [2020-03-11T04:43:22.173Z] [worker-pool] Cleaned up workers for uploadClip: 1 --> 0
+[debug] [2020-03-11T04:43:22.177Z] [worker-pool] addWorker(~diagnostic~)
+[debug] [2020-03-11T04:43:22.177Z] [worker-pool] Adding worker with key ~diagnostic~, total=2
+[debug] [2020-03-11T04:43:22.177Z] [worker-pool] submitWork(triggerId=)
+[debug] [2020-03-11T04:43:22.177Z] [worker-~diagnostic~-e70bd86a-4939-462d-b4d1-0c0a6b7f3a82]: Assigning socketPath: /var/folders/49/phscv8355ss17phlv_mjfd_r0000gn/T/fire_emu_6459.sock
+[debug] [2020-03-11T04:43:22.177Z] [worker-~diagnostic~-e70bd86a-4939-462d-b4d1-0c0a6b7f3a82]: BUSY
+[debug] [2020-03-11T04:43:22.179Z] [worker-~diagnostic~-3e474dff-614d-4f66-b104-75d295127b52]: exited
+[debug] [2020-03-11T04:43:22.179Z] [worker-~diagnostic~-3e474dff-614d-4f66-b104-75d295127b52]: FINISHED
+[debug] [2020-03-11T04:43:22.585Z] [runtime-status] [6459] Functions runtime initialized. {"cwd":"/Users/seanking/code/jam/functions","node_version":"10.12.0"}
+[debug] [2020-03-11T04:43:22.588Z] [runtime-status] [6459] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true,"pubsub_emulator":true}
+[debug] [2020-03-11T04:43:22.591Z] [runtime-status] [6459] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.2","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-11T04:43:22.593Z] [runtime-status] [6459] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-11T04:43:22.594Z] [runtime-status] [6459] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-11T04:43:22.661Z] [worker-~diagnostic~-e70bd86a-4939-462d-b4d1-0c0a6b7f3a82]: IDLE
+[debug] [2020-03-11T04:49:26.640Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-11T04:49:26.640Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-11T04:49:26.640Z] Accepted request POST /jams-b177f/us-central1/uploadClip --> uploadClip
+[debug] [2020-03-11T04:49:26.641Z] [worker-pool] Cleaned up workers for ~diagnostic~: 2 --> 1
+[debug] [2020-03-11T04:49:26.643Z] [worker-pool] addWorker(uploadClip)
+[debug] [2020-03-11T04:49:26.643Z] [worker-pool] Adding worker with key uploadClip, total=1
+[debug] [2020-03-11T04:49:26.643Z] [worker-pool] submitWork(triggerId=uploadClip)
+[debug] [2020-03-11T04:49:26.643Z] [worker-uploadClip-d02312ee-86af-481d-aa04-50ef7e3ca584]: Assigning socketPath: /var/folders/49/phscv8355ss17phlv_mjfd_r0000gn/T/fire_emu_6568.sock
+[debug] [2020-03-11T04:49:26.643Z] [worker-uploadClip-d02312ee-86af-481d-aa04-50ef7e3ca584]: BUSY
+[debug] [2020-03-11T04:49:27.072Z] [runtime-status] [6568] Functions runtime initialized. {"cwd":"/Users/seanking/code/jam/functions","node_version":"10.12.0"}
+[debug] [2020-03-11T04:49:27.075Z] [runtime-status] [6568] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true,"pubsub_emulator":true}
+[debug] [2020-03-11T04:49:27.077Z] [runtime-status] [6568] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.2","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-11T04:49:27.078Z] [runtime-status] [6568] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-11T04:49:27.079Z] [runtime-status] [6568] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-11T04:49:27.143Z] [runtime-status] [6568] Trigger "uploadClip" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "uploadClip"
+[debug] [2020-03-11T04:49:27.144Z] [runtime-status] [6568] triggerDefinition {"httpsTrigger":{},"name":"uploadClip","entryPoint":"uploadClip"}
+[debug] [2020-03-11T04:49:27.144Z] [runtime-status] [6568] Running uploadClip in mode HTTPS
+[debug] [2020-03-11T04:49:27.148Z] [runtime-status] [6568] Attempting to listen to socketPath: /var/folders/49/phscv8355ss17phlv_mjfd_r0000gn/T/fire_emu_6568.sock
+[debug] [2020-03-11T04:49:27.151Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-11T04:49:27.175Z] [runtime-status] [6568] Ephemeral server handling POST request
+[info] >  { hey: '' }
+[debug] [2020-03-11T04:49:27.184Z] [runtime-status] [6568] Ephemeral server survived.
+[info] i  functions: Finished "uploadClip" in ~1s
+[debug] [2020-03-11T04:49:27.185Z] [worker-uploadClip-d02312ee-86af-481d-aa04-50ef7e3ca584]: IDLE
+[debug] [2020-03-11T04:49:27.185Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-11T05:08:22.851Z] File /Users/seanking/code/jam/functions/index.js changed, reloading triggers
+[debug] [2020-03-11T05:08:23.856Z] [worker-pool] Shutting down IDLE worker (~diagnostic~)
+[debug] [2020-03-11T05:08:23.856Z] [worker-~diagnostic~-e70bd86a-4939-462d-b4d1-0c0a6b7f3a82]: FINISHING
+[debug] [2020-03-11T05:08:23.856Z] [worker-pool] Shutting down IDLE worker (uploadClip)
+[debug] [2020-03-11T05:08:23.857Z] [worker-uploadClip-d02312ee-86af-481d-aa04-50ef7e3ca584]: FINISHING
+[debug] [2020-03-11T05:08:23.863Z] [worker-pool] addWorker(~diagnostic~)
+[debug] [2020-03-11T05:08:23.864Z] [worker-pool] Adding worker with key ~diagnostic~, total=2
+[debug] [2020-03-11T05:08:23.864Z] [worker-pool] submitWork(triggerId=)
+[debug] [2020-03-11T05:08:23.864Z] [worker-~diagnostic~-df06637f-dfac-451e-96a7-a404d52ec78d]: Assigning socketPath: /var/folders/49/phscv8355ss17phlv_mjfd_r0000gn/T/fire_emu_6631.sock
+[debug] [2020-03-11T05:08:23.864Z] [worker-~diagnostic~-df06637f-dfac-451e-96a7-a404d52ec78d]: BUSY
+[debug] [2020-03-11T05:08:23.868Z] [worker-~diagnostic~-e70bd86a-4939-462d-b4d1-0c0a6b7f3a82]: exited
+[debug] [2020-03-11T05:08:23.868Z] [worker-~diagnostic~-e70bd86a-4939-462d-b4d1-0c0a6b7f3a82]: FINISHED
+[debug] [2020-03-11T05:08:23.868Z] [worker-uploadClip-d02312ee-86af-481d-aa04-50ef7e3ca584]: exited
+[debug] [2020-03-11T05:08:23.868Z] [worker-uploadClip-d02312ee-86af-481d-aa04-50ef7e3ca584]: FINISHED
+[debug] [2020-03-11T05:08:24.488Z] [runtime-status] [6631] Functions runtime initialized. {"cwd":"/Users/seanking/code/jam/functions","node_version":"10.12.0"}
+[debug] [2020-03-11T05:08:24.492Z] [runtime-status] [6631] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true,"pubsub_emulator":true}
+[debug] [2020-03-11T05:08:24.496Z] [runtime-status] [6631] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.2","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-11T05:08:24.498Z] [runtime-status] [6631] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-11T05:08:24.499Z] [runtime-status] [6631] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/seanking/code/jam/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-11T05:08:24.575Z] [worker-~diagnostic~-df06637f-dfac-451e-96a7-a404d52ec78d]: IDLE

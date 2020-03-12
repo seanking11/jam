@@ -1,11 +1,13 @@
 import _ from 'lodash'
 import React, { useState, createRef, useEffect, useCallback } from 'react'
+import handbrake from 'handbrake-js'
 import { Link } from 'react-router-dom'
 import firebase from 'firebase'
 import VideoRecorder from 'react-video-recorder'
 import uuid from 'uuid/v4'
 
-import { Track, PlayPause, VideoGrid } from './index'
+import Api from '../api'
+import { Clip, Track, PlayPause, VideoGrid } from './index'
 
 const COUNTDOWN_DELAY_MS = 3000
 
@@ -19,7 +21,7 @@ const Song = ({
     const [isPlaying, setIsPlaying] = useState(false)
     const [videoRefs, setVideoRefs] = useState()
     const [showRecorder, setShowRecorder] = useState(true)
-    const [clipUrls, setClipUrls] = useState([])
+    const [clipIds, setClipIds] = useState([])
 
     useEffect(() => {
         if (songId) {
@@ -33,21 +35,22 @@ const Song = ({
                     const tracks = song?.tracks
                     const trackIds = _.keys(tracks)
 
-                    const clipUrls = trackIds
+                    const clipIds = trackIds
                         .map((trackId) => {
                             if (tracks[trackId].clips) {
                                 const clipIds = Object.keys(
                                     tracks[trackId].clips
                                 )
-                                return tracks[trackId].clips[clipIds[0]].url
+                                // Return 1st clip in each track
+                                return clipIds[0]
                             }
 
                             return ''
                         })
                         .filter((clip) => clip !== '')
-                    setClipUrls(clipUrls)
+                    setClipIds(clipIds)
 
-                    const videoRefs = clipUrls.map((url) => createRef())
+                    const videoRefs = clipIds.map((id) => createRef())
                     setVideoRefs(videoRefs)
                 })
         }
@@ -93,26 +96,37 @@ const Song = ({
         const storageRef = firebase.storage().ref()
         const clipRef = storageRef.child(`clips/${clipId}.mp4`)
         // Upload clip
-        const uploadTask = await clipRef.put(videoBlob, {
-            contentType: 'video/mp4',
+        const videoFile = new File([videoBlob], `${clipId}.mp4`, {
+            type: 'video/mp4',
         })
-        const downloadURL = await uploadTask.ref.getDownloadURL()
+        const formData = new FormData()
+        formData.append('videoBlob', videoBlob)
+
+        try {
+            const response = await Api.uploadClip(formData)
+        } catch (err) {
+            console.log('er', err)
+        }
+        // const uploadTask = await clipRef.put(videoFile, {
+        //     contentType: 'video/mp4',
+        // })
+        // const downloadURL = await uploadTask.ref.getDownloadURL()
         // Create clip document
-        const db = firebase.firestore()
-        await db
-            .collection('clips')
-            .doc(clipId)
-            .set({
-                url: downloadURL,
-            })
+        // const db = firebase.firestore()
+        // await db
+        //     .collection('clips')
+        //     .doc(clipId)
+        //     .set({
+        //         url: downloadURL,
+        //     })
 
         // Create new track
-        const trackId = await addNewTrack()
+        // const trackId = await addNewTrack()
 
         // Update track to include clip
-        const songRef = db.collection('songs').doc(songId)
-        const clipPath = `tracks.${trackId}.clips.${clipId}`
-        await songRef.update({ [clipPath]: { url: downloadURL } })
+        // const songRef = db.collection('songs').doc(songId)
+        // const clipPath = `tracks.${trackId}.clips.${clipId}`
+        // await songRef.update({ [clipPath]: { url: downloadURL } })
     }
 
     const onPause = useCallback(() => {
@@ -157,6 +171,8 @@ const Song = ({
 
     const tracks = song?.tracks
     const trackIds = tracks ? Object.keys(tracks) : []
+    console.log('clipIds', clipIds)
+    console.log('videoRefs', videoRefs)
 
     return (
         <div className="videoGrid bg-gray-900 text-gray-100">
@@ -190,12 +206,17 @@ const Song = ({
                         {videoRefs.map((ref, i) => (
                             <div className="videoGridItem" key={i}>
                                 <div className="videoWrapper">
-                                    <video
-                                        className="centeredVideo"
-                                        key={clipUrls[i]}
+                                    {/* <video
+                                        // key={clipUrls[i]}
                                         ref={videoRefs[i]}
-                                        src={clipUrls[i]}
+                                        // src={clipUrls[i]}
+                                        src="https://firebasestorage.googleapis.com/v0/b/jams-b177f.appspot.com/o/clips%2Fc3b88238-edbc-400b-93b9-f3d7a086b430.mp4?alt=media&token=b071ed3c-0c07-4802-a704-feb45ddbe2b6"
+                                        className="centeredVideo"
                                         type="video/mp4"
+                                    /> */}
+                                    <Clip
+                                        ref={videoRefs[i]}
+                                        clipId={clipIds[i]}
                                     />
                                 </div>
                             </div>
@@ -208,6 +229,7 @@ const Song = ({
                         onRecordingComplete={onRecordingComplete}
                         onStartRecording={playWithDelay}
                         countdownTime={COUNTDOWN_DELAY_MS}
+                        mimeType="video/webm;codecs=h264"
                     />
                 )}
             </div>
