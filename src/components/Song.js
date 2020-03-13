@@ -197,6 +197,7 @@ const Song = ({
                                         ref={videoRefs[i]}
                                         src={clipUrls[i]}
                                         type="video/mp4"
+                                        playsinline
                                     />
                                 </div>
                             </div>
