@@ -3,9 +3,12 @@ import uuid from 'uuid/v4'
 import firebase from 'firebase/app'
 import styled from 'styled-components'
 
-import { Clip } from './index'
+const ClipVideo = styled.video`
+    width: 150px;
+    height: 100%;
+`
 
-const Track = ({ songId, id, track, addNewTrack }) => {
+const Track = ({ songId, id, track, clips, addNewTrack }) => {
     const videoInput = useRef(null)
 
     const onNameChange = (name) => {
@@ -35,10 +38,12 @@ const Track = ({ songId, id, track, addNewTrack }) => {
                 url: downloadURL,
             })
 
-        // Update track to include clip
-        const songRef = db.collection('songs').doc(songId)
-        const clipPath = `tracks.${id}.clips.${clipId}`
-        await songRef.update({ [clipPath]: { url: downloadURL } })
+        // Update song to include clip
+        const clipsRef = db
+            .collection('songs')
+            .doc(songId)
+            .collection('clips')
+        await clipsRef.add({ trackId: id, url: downloadURL, startAt: '00:00' })
     }
 
     const onDeleteTrack = async () => {
@@ -54,9 +59,6 @@ const Track = ({ songId, id, track, addNewTrack }) => {
             })
         }
     }
-
-    const clips = track?.clips
-    const clipIds = clips ? Object.keys(clips) : []
 
     return (
         <>
@@ -81,8 +83,10 @@ const Track = ({ songId, id, track, addNewTrack }) => {
                 className="rounded-md bg-gray-800 border-dashed border-gray-900 border-2"
                 style={{ height: '100px' }}
             >
-                {clipIds.length > 0 ? (
-                    <Clip id={clipIds[0]} />
+                {clips?.length > 0 ? (
+                    clips.map((clip) => (
+                        <ClipVideo key={clip.clipId} src={clip.url} />
+                    ))
                 ) : (
                     <div className="inline">
                         <input
