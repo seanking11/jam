@@ -17,6 +17,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { Track, ToggleButton, VideoGrid } from './index'
+import Player from './Player'
 
 const COUNTDOWN_DELAY_MS = 3000
 
@@ -28,41 +29,66 @@ const Song = ({
     const [song, setSong] = useState({})
     const [friendId, setFriendId] = useState('')
     const [isPlaying, setIsPlaying] = useState(false)
-    const [videoRefs, setVideoRefs] = useState()
     const [showRecorder, setShowRecorder] = useState(true)
-    const [clipUrls, setClipUrls] = useState([])
+    const [currentTime, setCurrentTime] = useState(0)
+    const [player, setPlayer] = useState(null)
+    const [clips, setClips] = useState([])
 
     useEffect(() => {
-        if (songId) {
+        let unsub
+        const getSongData = async () => {
             const db = firebase.firestore()
-            db.collection('songs')
+            unsub = db
+                .collection('songs')
                 .doc(songId || '')
                 .onSnapshot(function(doc) {
                     const song = doc.data()
                     setSong(song)
+                })
 
-                    const tracks = song?.tracks
-                    const trackIds = _.keys(tracks)
+            // TODO: Unsubscribe from this
+            db.collection('songs')
+                .doc(songId)
+                .collection('clips')
+                .onSnapshot((snapshot) => {
+                    let newClips = clips
+                    snapshot.docChanges().forEach((change) => {
+                        const clip = {
+                            clipId: change.doc.id,
+                            ...change.doc.data(),
+                        }
 
-                    const clipUrls = trackIds
-                        .map((trackId) => {
-                            if (tracks[trackId].clips) {
-                                const clipIds = Object.keys(
-                                    tracks[trackId].clips
-                                )
-                                return tracks[trackId].clips[clipIds[0]].url
-                            }
+                        const clipIndexToOverride = newClips.findIndex(
+                            (clip) => clip.clipId === change.doc.id
+                        )
+                        if (clipIndexToOverride === -1) {
+                            newClips.push(clip)
+                        } else {
+                            newClips[clipIndexToOverride] = clip
+                        }
+                    })
 
-                            return ''
-                        })
-                        .filter((clip) => clip !== '')
-                    setClipUrls(clipUrls)
+                    setClips(newClips)
 
-                    const videoRefs = clipUrls.map((url) => createRef())
-                    setVideoRefs(videoRefs)
+                    _.each(clips, (clip) => {
+                        const ref = createRef()
+                        clip.videoRef = ref
+                    })
+
+                    const player = new Player({
+                        clips,
+                        incrementSeconds: setCurrentTime,
+                    })
+                    setPlayer(player)
                 })
         }
-    }, [songId])
+
+        if (songId) {
+            getSongData()
+        }
+
+        return unsub
+    }, [clips, songId])
 
     const onSongNameChange = (name) => {
         const db = firebase.firestore()
@@ -90,7 +116,7 @@ const Song = ({
 
         await songRef.update({
             [trackPath]: {
-                name: 'Track Name',
+                name: '',
             },
         })
 
@@ -108,47 +134,32 @@ const Song = ({
             contentType: 'video/mp4',
         })
         const downloadURL = await uploadTask.ref.getDownloadURL()
-        // Create clip document
+
         const db = firebase.firestore()
-        await db
-            .collection('clips')
-            .doc(clipId)
-            .set({
-                url: downloadURL,
-            })
-
-        // Create new track
         const trackId = await addNewTrack()
+        const clipsRef = db
+            .collection('songs')
+            .doc(songId)
+            .collection('clips')
 
-        // Update track to include clip
-        const songRef = db.collection('songs').doc(songId)
-        const clipPath = `tracks.${trackId}.clips.${clipId}`
-        await songRef.update({ [clipPath]: { url: downloadURL } })
+        await clipsRef.add({ trackId, url: downloadURL, startAt: '00:00' })
     }
 
     const onPause = useCallback(() => {
-        _.each(videoRefs, (ref) => {
-            ref.current.pause()
-        })
-
         setIsPlaying(false)
-    }, [videoRefs])
+        player.pause()
+    }, [player])
 
     const onPlay = useCallback(() => {
-        _.each(videoRefs, (ref) => {
-            ref.current.play()
-        })
-
         setIsPlaying(true)
-    }, [videoRefs])
+        player.play()
+    }, [player])
 
     const onSeek = useCallback(
         (seekToTime = 0) => {
-            _.each(videoRefs, (ref) => {
-                ref.current.currentTime = seekToTime
-            })
+            player.seek(seekToTime)
         },
-        [videoRefs]
+        [player]
     )
 
     const onTogglePlayPause = useCallback(() => {
@@ -177,27 +188,24 @@ const Song = ({
         }
     }
 
-    const tracks = song?.tracks
-    const trackIds = tracks ? Object.keys(tracks) : []
-
     return (
         <div className="screen bg-gray-900 text-gray-100">
             <div
                 id="videoGrid"
                 className="grid grid-cols-2 border-b border-gray-800"
             >
-                {videoRefs && (
+                {clips && (
                     <VideoGrid>
-                        {videoRefs.map((ref, i) => (
+                        {_.map(clips, (clip, i) => (
                             <div className="videoGridItem" key={i}>
                                 <div className="videoWrapper">
                                     <video
                                         className="centeredVideo"
-                                        key={clipUrls[i]}
-                                        ref={videoRefs[i]}
-                                        src={clipUrls[i]}
+                                        key={clip.id}
+                                        ref={clip.videoRef}
+                                        src={clip.url}
                                         type="video/mp4"
-                                        playsinline
+                                        playsInline
                                     />
                                 </div>
                             </div>
@@ -251,11 +259,11 @@ const Song = ({
                         style={{ marginLeft: 'auto' }}
                     />
                 </div>
-            </div>
 
-            <div className="tracksContainer gap-4 overflow-scroll scrolling-touch">
-                <div className="p-4 flex flex-row">
-                    {/* <label className="ml-2" htmlFor="showRecorder">
+                <div className="overflow-scroll relative">
+                    <div className="tracksContainer gap-4">
+                        <div className="p-4 flex flex-row">
+                            {/* <label className="ml-2" htmlFor="showRecorder">
                         Show Recorder
                     </label>
                     <input
@@ -267,44 +275,61 @@ const Song = ({
                         className="ml-2"
                     /> */}
 
-                    <div className="inline">
-                        <input
-                            type="text"
-                            placeholder="Friend's user ID"
-                            value={friendId}
-                            onChange={({ target: { value } }) =>
-                                setFriendId(value)
-                            }
-                        />
-                        <button onClick={onShareWithFriend}>Share</button>
+                            <div className="inline">
+                                <input
+                                    type="text"
+                                    placeholder="Friend's user ID"
+                                    value={friendId}
+                                    onChange={({ target: { value } }) =>
+                                        setFriendId(value)
+                                    }
+                                />
+                                <button onClick={onShareWithFriend}>
+                                    Share
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="p-2 flex justify-between">
+                            <div id="controls" className="relative">
+                                <div
+                                    className="absolute"
+                                    style={{ left: `${currentTime}px` }}
+                                >
+                                    \/
+                                </div>
+                            </div>
+                            <span>{player?.time || '00:00'}</span>
+                        </div>
+
+                        {song?.tracks &&
+                            _.map(song?.tracks, (track, trackId) => {
+                                const clipsForTrack = clips?.filter(
+                                    (clip) => clip.trackId === trackId
+                                )
+                                return (
+                                    <Track
+                                        key={trackId}
+                                        id={trackId}
+                                        track={track}
+                                        clips={clipsForTrack}
+                                        songId={songId}
+                                    />
+                                )
+                            })}
+
+                        {/* Intentionally empty to place the button below in the right spot */}
+                        <div></div>
+                        <div
+                            onClick={addNewTrack}
+                            className="bg-gray-800 h-12 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full cursor-pointer center"
+                        >
+                            <span role="img" aria-label="Plus">
+                                ➕
+                            </span>{' '}
+                            Add new track
+                        </div>
                     </div>
-                </div>
-
-                <div className="p-2 flex justify-between">
-                    <span>00:00</span>
-                    <span className="mr-4">00:30</span>
-                </div>
-
-                {trackIds.length > 0 &&
-                    trackIds.map((trackId) => (
-                        <Track
-                            key={trackId}
-                            id={trackId}
-                            track={tracks[trackId]}
-                            songId={songId}
-                        />
-                    ))}
-
-                {/* Intentionally empty to place the button below in the right spot */}
-                <div></div>
-                <div
-                    onClick={addNewTrack}
-                    className="bg-gray-800 h-12 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full cursor-pointer center"
-                >
-                    <span role="img" aria-label="Plus">
-                        ➕
-                    </span>{' '}
-                    Add new track
                 </div>
             </div>
         </div>
