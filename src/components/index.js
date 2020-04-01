@@ -1,5 +1,6 @@
 export { default as Clip } from './Clip'
 export { default as LoginScreen } from './LoginScreen'
+export { default as Player } from './Player'
 export { default as PrivateRoute } from './PrivateRoute'
 export { default as PublicRoute } from './PublicRoute'
 export { default as Router } from './Router'
