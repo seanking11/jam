@@ -68,6 +68,19 @@ const SongList = ({ user = {} }) => {
         firebase.auth().signOut()
     }
 
+    const toggleTheme = () => {
+        const themes = ['light', 'dark']
+        const root = document.getElementById('root')
+        const classList = root.classList
+        if (classList.contains(themes[0])) {
+            classList.remove(themes[0])
+            classList.add(themes[1])
+        } else {
+            classList.remove(themes[1])
+            classList.add(themes[0])
+        }
+    }
+
     // All songs associated to your userId will be fetched
     // Your songs are denoted by the createdBy
     const [yourSongs, sharedSongs] = _.partition(
@@ -76,7 +89,7 @@ const SongList = ({ user = {} }) => {
     )
 
     return (
-        <div>
+        <div className="bg-default text-default">
             <div>
                 Your user ID <code style={{ fontSize: '8px' }}>{user.uid}</code>{' '}
             </div>
@@ -158,7 +171,21 @@ const SongList = ({ user = {} }) => {
                 )}
             </div>
 
-            <button type="button" onClick={signOut} className="float-right p-2">
+            <button
+                type="button"
+                onClick={toggleTheme}
+                className="float-left p-2 text-inverse"
+            >
+                <span role="img" aria-label="Rainbow">
+                    🌈
+                </span>{' '}
+                Toggle theme
+            </button>
+            <button
+                type="button"
+                onClick={signOut}
+                className="float-right p-2 text-inverse"
+            >
                 <span role="img" aria-label="Wave">
                     👋
                 </span>{' '}
