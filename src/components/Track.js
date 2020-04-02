@@ -64,7 +64,7 @@ const Track = ({ songId, id, track, clips, addNewTrack }) => {
         <>
             <div className="p-2 inline">
                 <input
-                    className="text-grey bg-transparent"
+                    className="bg-default-soft text-default"
                     type="text"
                     placeholder="Track name"
                     value={track?.name || ''}
