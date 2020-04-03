@@ -70,8 +70,8 @@ const SongList = ({ user = {} }) => {
 
     const toggleTheme = () => {
         const themes = ['light', 'dark']
-        const root = document.getElementById('root')
-        const classList = root.classList
+        const body = document.getElementById('body')
+        const classList = body.classList
         if (classList.contains(themes[0])) {
             classList.remove(themes[0])
             classList.add(themes[1])
@@ -89,9 +89,9 @@ const SongList = ({ user = {} }) => {
     )
 
     return (
-        <div className="bg-default text-default">
+        <div className="p-4">
             <div>
-                Your user ID <code style={{ fontSize: '8px' }}>{user.uid}</code>{' '}
+                Your user ID: <code>{user.uid}</code>{' '}
             </div>
             <div>
                 <h4 className="text-3xl p-4 font-semibold">
@@ -129,7 +129,7 @@ const SongList = ({ user = {} }) => {
                         onChange={({ target: { value } }) =>
                             setNewSongName(value)
                         }
-                        className="bg-transparent m-4 text-lg flex-grow focus:outline-none focus:shadow-outline"
+                        className="bg-default focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 ml-4 block w-full appearance-none leading-normal"
                     />
                     <button
                         type="button"
@@ -174,18 +174,14 @@ const SongList = ({ user = {} }) => {
             <button
                 type="button"
                 onClick={toggleTheme}
-                className="float-left p-2 text-inverse"
+                className="float-left p-2"
             >
                 <span role="img" aria-label="Rainbow">
                     🌈
                 </span>{' '}
                 Toggle theme
             </button>
-            <button
-                type="button"
-                onClick={signOut}
-                className="float-right p-2 text-inverse"
-            >
+            <button type="button" onClick={signOut} className="float-right p-2">
                 <span role="img" aria-label="Wave">
                     👋
                 </span>{' '}
