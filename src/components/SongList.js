@@ -17,7 +17,6 @@ const SongItem = styled(Link)`
     padding: 1rem;
     border: 1px solid #777777;
     font-size: 18px;
-    color: #eee;
     text-align: left;
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2),
         0 4px 20px 0 rgba(0, 0, 0, 0.19);
@@ -68,6 +67,19 @@ const SongList = ({ user = {} }) => {
         firebase.auth().signOut()
     }
 
+    const toggleTheme = () => {
+        const themes = ['light', 'dark']
+        const body = document.getElementById('body')
+        const classList = body.classList
+        if (classList.contains(themes[0])) {
+            classList.remove(themes[0])
+            classList.add(themes[1])
+        } else {
+            classList.remove(themes[1])
+            classList.add(themes[0])
+        }
+    }
+
     // All songs associated to your userId will be fetched
     // Your songs are denoted by the createdBy
     const [yourSongs, sharedSongs] = _.partition(
@@ -76,9 +88,9 @@ const SongList = ({ user = {} }) => {
     )
 
     return (
-        <div>
+        <div className="p-4">
             <div>
-                Your user ID <code style={{ fontSize: '8px' }}>{user.uid}</code>{' '}
+                Your user ID: <code>{user.uid}</code>{' '}
             </div>
             <div>
                 <h4 className="text-3xl p-4 font-semibold">
@@ -116,7 +128,7 @@ const SongList = ({ user = {} }) => {
                         onChange={({ target: { value } }) =>
                             setNewSongName(value)
                         }
-                        className="bg-transparent m-4 text-lg flex-grow focus:outline-none focus:shadow-outline"
+                        className="bg-default focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 ml-4 block w-full appearance-none leading-normal"
                     />
                     <button
                         type="button"
@@ -158,6 +170,16 @@ const SongList = ({ user = {} }) => {
                 )}
             </div>
 
+            <button
+                type="button"
+                onClick={toggleTheme}
+                className="float-left p-2"
+            >
+                <span role="img" aria-label="Rainbow">
+                    🌈
+                </span>{' '}
+                Toggle theme
+            </button>
             <button type="button" onClick={signOut} className="float-right p-2">
                 <span role="img" aria-label="Wave">
                     👋

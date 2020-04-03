@@ -189,11 +189,8 @@ const Song = ({
     }
 
     return (
-        <div className="screen bg-gray-900 text-gray-100">
-            <div
-                id="videoGrid"
-                className="grid grid-cols-2 border-b border-gray-800"
-            >
+        <div className="screen bg-default-soft text-default">
+            <div id="videoGrid" className="grid grid-cols-2">
                 {clips && (
                     <VideoGrid>
                         {_.map(clips, (clip, i) => (
@@ -223,14 +220,14 @@ const Song = ({
             </div>
 
             <div>
-                <div className="p-4 flex items-center">
+                <div className="p-4 flex items-center bg-default">
                     <div className="navItem" style={{ marginRight: 'auto' }}>
                         <Link to="/songs">
                             <FontAwesomeIcon icon={faChevronLeft} />
                         </Link>
 
                         <input
-                            className="bg-transparent ml-4 outline-none focus:shadow-outline"
+                            className="bg-default ml-4 outline-none focus:shadow-outline"
                             type="text"
                             placeholder="Song title"
                             value={song?.name || ''}
@@ -278,13 +275,17 @@ const Song = ({
                             <div className="inline">
                                 <input
                                     type="text"
+                                    className="bg-default-soft"
                                     placeholder="Friend's user ID"
                                     value={friendId}
                                     onChange={({ target: { value } }) =>
                                         setFriendId(value)
                                     }
                                 />
-                                <button onClick={onShareWithFriend}>
+                                <button
+                                    className="bg-primary rounded-lg p-2"
+                                    onClick={onShareWithFriend}
+                                >
                                     Share
                                 </button>
                             </div>
