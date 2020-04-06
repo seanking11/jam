@@ -29,10 +29,10 @@ const Song = ({
     const [song, setSong] = useState({})
     const [friendId, setFriendId] = useState('')
     const [isPlaying, setIsPlaying] = useState(false)
-    const [showRecorder, setShowRecorder] = useState(true)
     const [currentTime, setCurrentTime] = useState(0)
     const [player, setPlayer] = useState(null)
     const [clips, setClips] = useState([])
+    const [editable, setEditable] = useState(false)
 
     useEffect(() => {
         let unsub
@@ -44,6 +44,9 @@ const Song = ({
                 .onSnapshot(function(doc) {
                     const song = doc.data()
                     setSong(song)
+                    if (song?.privacySetting === 'public') {
+                        setEditable(true)
+                    }
                 })
 
             // TODO: Unsubscribe from this
@@ -210,7 +213,7 @@ const Song = ({
                     </VideoGrid>
                 )}
 
-                {showRecorder && (
+                {editable && (
                     <VideoRecorder
                         onRecordingComplete={onRecordingComplete}
                         onStartRecording={playWithDelay}
@@ -234,6 +237,7 @@ const Song = ({
                             onChange={({ target: { value } }) =>
                                 onSongNameChange(value)
                             }
+                            disabled={!editable}
                         />
                     </div>
 
@@ -281,10 +285,12 @@ const Song = ({
                                     onChange={({ target: { value } }) =>
                                         setFriendId(value)
                                     }
+                                    disabled={!editable}
                                 />
                                 <button
                                     className="bg-primary rounded-lg p-2"
                                     onClick={onShareWithFriend}
+                                    disabled={!editable}
                                 >
                                     Share
                                 </button>
@@ -315,21 +321,23 @@ const Song = ({
                                         track={track}
                                         clips={clipsForTrack}
                                         songId={songId}
+                                        editable={editable}
                                     />
                                 )
                             })}
 
                         {/* Intentionally empty to place the button below in the right spot */}
                         <div></div>
-                        <div
+                        <button
                             onClick={addNewTrack}
                             className="bg-gray-800 h-12 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full cursor-pointer center"
+                            disabled={!editable}
                         >
                             <span role="img" aria-label="Plus">
                                 ➕
                             </span>{' '}
                             Add new track
-                        </div>
+                        </button>
                     </div>
                 </div>
             </div>

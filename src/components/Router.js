@@ -16,10 +16,10 @@ const Router = () => {
             <Switch>
                 <Redirect exact from="/" to="/songs" />
                 <PublicRoute exact path="/login" component={LoginScreen} />
+                <PublicRoute exact path="/songs/:songId" component={Song} />
 
                 <PrivateRoute exact path="/songs" component={SongList} />
                 <PrivateRoute exact path="/grid" component={VideoGrid} />
-                <PrivateRoute exact path="/songs/:songId" component={Song} />
             </Switch>
         </BrowserRouter>
     )

@@ -8,7 +8,7 @@ const ClipVideo = styled.video`
     height: 100%;
 `
 
-const Track = ({ songId, id, track, clips, addNewTrack }) => {
+const Track = ({ songId, id, track, clips, addNewTrack, editable = true }) => {
     const videoInput = useRef(null)
 
     const onNameChange = (name) => {
@@ -69,15 +69,18 @@ const Track = ({ songId, id, track, clips, addNewTrack }) => {
                     placeholder="Track name"
                     value={track?.name || ''}
                     onChange={({ target: { value } }) => onNameChange(value)}
+                    disabled={!editable}
                 />
-                <span
-                    role="img"
-                    aria-label="Trash"
-                    onClick={onDeleteTrack}
-                    className="cursor-pointer"
-                >
-                    🗑️
-                </span>
+                {editable && (
+                    <span
+                        role="img"
+                        aria-label="Trash"
+                        onClick={onDeleteTrack}
+                        className="cursor-pointer"
+                    >
+                        🗑️
+                    </span>
+                )}
             </div>
             <div
                 className="rounded-md bg-gray-800 border-dashed border-gray-900 border-2"
@@ -94,6 +97,7 @@ const Track = ({ songId, id, track, clips, addNewTrack }) => {
                             onChange={uploadFile}
                             type="file"
                             accept="video/*"
+                            disabled={!editable}
                         />
                     </div>
                 )}
