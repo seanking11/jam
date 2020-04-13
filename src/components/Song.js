@@ -189,7 +189,7 @@ const Song = ({
     }
 
     return (
-        <div className="screen bg-default-soft text-default">
+        <div className="screen bg-default text-default">
             <div id="videoGrid" className="grid grid-cols-2">
                 {clips && (
                     <VideoGrid>
@@ -220,14 +220,14 @@ const Song = ({
             </div>
 
             <div>
-                <div className="p-4 flex items-center bg-default">
+                <div className="p-4 flex items-center bg-default-soft">
                     <div className="navItem" style={{ marginRight: 'auto' }}>
                         <Link to="/songs">
                             <FontAwesomeIcon icon={faChevronLeft} />
                         </Link>
 
                         <input
-                            className="bg-default ml-4 outline-none focus:shadow-outline"
+                            className="bg-default ml-4 outline-none focus:shadow-outline p-2 rounded-lg"
                             type="text"
                             placeholder="Song title"
                             value={song?.name || ''}
@@ -275,7 +275,7 @@ const Song = ({
                             <div className="inline">
                                 <input
                                     type="text"
-                                    className="bg-default-soft"
+                                    className="bg-default outline-none focus:shadow-outline p-2 rounded-lg"
                                     placeholder="Friend's user ID"
                                     value={friendId}
                                     onChange={({ target: { value } }) =>
@@ -292,12 +292,14 @@ const Song = ({
                         </div>
 
                         <div className="p-2 flex justify-between">
-                            <div id="controls" className="relative">
-                                <div
-                                    className="absolute"
-                                    style={{ left: `${currentTime}px` }}
-                                >
-                                    \/
+                            <div
+                                id="controls"
+                                className="relative absolute"
+                                style={{ left: `${currentTime}px` }}
+                            >
+                                <div className="seekbar-line"></div>
+                                <div className="triangle-down">
+                                    <div className="triangle-inner"></div>
                                 </div>
                             </div>
                             <span>{player?.time || '00:00'}</span>
@@ -323,7 +325,7 @@ const Song = ({
                         <div></div>
                         <div
                             onClick={addNewTrack}
-                            className="bg-gray-800 h-12 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full cursor-pointer center"
+                            className="h-12 hover:bg-default-soft text-white font-bold py-2 px-4 rounded-full cursor-pointer center"
                         >
                             <span role="img" aria-label="Plus">
                                 ➕

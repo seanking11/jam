@@ -88,6 +88,36 @@ code {
     display: flex;
 }
 
+.triangle-down {
+    width: 0;
+    height: 0;
+    border-top: 20px solid var(--color-bg-primary);
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    cursor: ew-resize;
+    margin-top: 5px;
+}
+
+.triangle-inner {
+    position: relative;
+    top: -17px;
+    right: 9px;
+    width: 0;
+    height: 0;
+    border-top: 12px solid #000000;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+}
+
+.seekbar-line {
+    position: absolute;
+    width: 1px;
+    height: 500px;
+    background-color: var(--color-bg-primary);
+    left: 50%;
+    right: 50%;
+}
+
 /*
     Themes
 */
@@ -95,34 +125,34 @@ code {
     --color-text-primary: #faa916;
     --color-text-secondary: #546a76;
     --color-text-danger: #b80c09;
-    --color-text-default: #141301;
+    --color-text-default: #2f3437;
     --color-text-default-soft: #353535;
-    --color-text-inverse: #e5e7e6;
-    --color-text-inverse-soft: #b7b5b3;
+    --color-text-inverse: #ffffff;
+    --color-text-inverse-soft: #f7f6f3;
 
     --color-bg-primary: #faa916;
     --color-bg-secondary: #546a76;
     --color-bg-danger: #b80c09;
-    --color-bg-default: #e5e7e6;
-    --color-bg-default-soft: #b7b5b3;
-    --color-bg-inverse: #141301;
+    --color-bg-default: #ffffff;
+    --color-bg-default-soft: #f7f6f3;
+    --color-bg-inverse: #2f3437;
     --color-bg-inverse-soft: #353535;
 }
 
 .dark {
-    --color-text-primary: #3c6e71;
+    --color-text-primary: #faa916;
     --color-text-secondary: #284b63;
     --color-text-danger: #b80c09;
     --color-text-default: #eeeeee;
     --color-text-default-soft: #d9d9d9;
-    --color-text-inverse: #141301;
-    --color-text-inverse-soft: #1b1b1e;
+    --color-text-inverse: #2f3437;
+    --color-text-inverse-soft: #373c3f;
 
-    --color-bg-primary: #3c6e71;
+    --color-bg-primary: #faa916;
     --color-bg-secondary: #284b63;
     --color-bg-danger: #b80c09;
-    --color-bg-default: #141301;
-    --color-bg-default-soft: #1b1b1e;
+    --color-bg-default: #2f3437;
+    --color-bg-default-soft: #373c3f;
     --color-bg-inverse: #ffffff;
     --color-bg-inverse-soft: #d9d9d9;
 }
