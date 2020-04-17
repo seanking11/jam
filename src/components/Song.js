@@ -225,16 +225,6 @@ const Song = ({
                         <Link to="/songs">
                             <FontAwesomeIcon icon={faChevronLeft} />
                         </Link>
-
-                        <input
-                            className="bg-default ml-4 outline-none focus:shadow-outline p-2 rounded-lg"
-                            type="text"
-                            placeholder="Song title"
-                            value={song?.name || ''}
-                            onChange={({ target: { value } }) =>
-                                onSongNameChange(value)
-                            }
-                        />
                     </div>
 
                     <ToggleButton
@@ -259,7 +249,7 @@ const Song = ({
 
                 <div className="overflow-scroll relative">
                     <div className="tracksContainer gap-4">
-                        <div className="p-4 flex flex-row">
+                        <div className="p-2 flex flex-row">
                             {/* <label className="ml-2" htmlFor="showRecorder">
                         Show Recorder
                     </label>
@@ -274,20 +264,14 @@ const Song = ({
 
                             <div className="inline">
                                 <input
+                                    className="bg-default outline-none font-bold p-1 focus:shadow-outline rounded-lg"
                                     type="text"
-                                    className="bg-default outline-none focus:shadow-outline p-2 rounded-lg"
-                                    placeholder="Friend's user ID"
-                                    value={friendId}
+                                    placeholder="Song title"
+                                    value={song?.name || ''}
                                     onChange={({ target: { value } }) =>
-                                        setFriendId(value)
+                                        onSongNameChange(value)
                                     }
                                 />
-                                <button
-                                    className="bg-primary rounded-lg p-2"
-                                    onClick={onShareWithFriend}
-                                >
-                                    Share
-                                </button>
                             </div>
                         </div>
 
