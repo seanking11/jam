@@ -29,7 +29,7 @@ const Song = ({
     const [song, setSong] = useState({})
     const [friendId, setFriendId] = useState('')
     const [isPlaying, setIsPlaying] = useState(false)
-    const [showRecorder, setShowRecorder] = useState(true)
+    const [showRecorder, setShowRecorder] = useState(false)
     const [currentTime, setCurrentTime] = useState(0)
     const [player, setPlayer] = useState(null)
     const [clips, setClips] = useState([])
@@ -220,7 +220,7 @@ const Song = ({
             </div>
 
             <div>
-                <div className="p-4 flex items-center bg-default-soft">
+                <div className="p-4 flex items-center bg-default-hard">
                     <div className="navItem" style={{ marginRight: 'auto' }}>
                         <Link to="/songs">
                             <FontAwesomeIcon icon={faChevronLeft} />
@@ -250,18 +250,6 @@ const Song = ({
                 <div className="overflow-scroll relative">
                     <div className="tracksContainer gap-4">
                         <div className="p-2 flex flex-row">
-                            {/* <label className="ml-2" htmlFor="showRecorder">
-                        Show Recorder
-                    </label>
-                    <input
-                        id="showRecorder"
-                        type="checkbox"
-                        onClick={() => setShowRecorder(!showRecorder)}
-                        defaultChecked
-                        label="Show recorder"
-                        className="ml-2"
-                    /> */}
-
                             <div className="inline">
                                 <input
                                     className="bg-default outline-none font-bold p-1 focus:shadow-outline rounded-lg"
@@ -301,6 +289,7 @@ const Song = ({
                                         track={track}
                                         clips={clipsForTrack}
                                         songId={songId}
+                                        setShowRecorder={setShowRecorder}
                                     />
                                 )
                             })}

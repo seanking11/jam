@@ -1,6 +1,8 @@
 import React, { useRef } from 'react'
 import uuid from 'uuid/v4'
+import { faVideo, faUpload } from '@fortawesome/free-solid-svg-icons'
 import firebase from 'firebase/app'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from 'styled-components'
 
 const ClipVideo = styled.video`
@@ -8,7 +10,7 @@ const ClipVideo = styled.video`
     height: 100%;
 `
 
-const Track = ({ songId, id, track, clips, addNewTrack }) => {
+const Track = ({ songId, id, track, clips, setShowRecorder, addNewTrack }) => {
     const videoInput = useRef(null)
 
     const onNameChange = (name) => {
@@ -80,7 +82,7 @@ const Track = ({ songId, id, track, clips, addNewTrack }) => {
                 </span>
             </div>
             <div
-                className="rounded-md bg-gray-800 border-dashed border-gray-900 border-2"
+                className="rounded-md border-gray-900 bg-default-soft"
                 style={{ height: '100px' }}
             >
                 {clips?.length > 0 ? (
@@ -88,13 +90,29 @@ const Track = ({ songId, id, track, clips, addNewTrack }) => {
                         <ClipVideo key={clip.clipId} src={clip.url} />
                     ))
                 ) : (
-                    <div className="inline">
-                        <input
-                            ref={videoInput}
-                            onChange={uploadFile}
-                            type="file"
-                            accept="video/*"
-                        />
+                    <div
+                        className="flex justify-evenly items-center"
+                        style={{ height: '100%' }}
+                    >
+                        <div className="p-2 border rounded-md">
+                            <input
+                                id="fileUpload"
+                                ref={videoInput}
+                                onChange={uploadFile}
+                                type="file"
+                                accept="video/*"
+                                className="hidden"
+                            />
+                            <FontAwesomeIcon icon={faUpload} className="mr-1" />
+                            Upload
+                        </div>
+                        <button
+                            className="p-2 border rounded-md"
+                            onClick={() => setShowRecorder(true)}
+                        >
+                            <FontAwesomeIcon icon={faVideo} className="mr-1" />
+                            Record
+                        </button>
                     </div>
                 )}
             </div>
