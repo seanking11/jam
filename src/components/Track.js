@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import uuid from 'uuid/v4'
-import { faVideo, faUpload } from '@fortawesome/free-solid-svg-icons'
+import { faTrash, faVideo, faUpload } from '@fortawesome/free-solid-svg-icons'
 import firebase from 'firebase/app'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from 'styled-components'
@@ -78,7 +78,10 @@ const Track = ({ songId, id, track, clips, setShowRecorder, addNewTrack }) => {
                     onClick={onDeleteTrack}
                     className="cursor-pointer"
                 >
-                    🗑️
+                    <FontAwesomeIcon
+                        icon={faTrash}
+                        className="bg-default-hard"
+                    />
                 </span>
             </div>
             <div
@@ -87,7 +90,11 @@ const Track = ({ songId, id, track, clips, setShowRecorder, addNewTrack }) => {
             >
                 {clips?.length > 0 ? (
                     clips.map((clip) => (
-                        <ClipVideo key={clip.clipId} src={clip.url} />
+                        <ClipVideo
+                            key={clip.clipId}
+                            src={clip.url}
+                            className="border-white border-2 rounded-md bg-default-hard"
+                        />
                     ))
                 ) : (
                     <div
