@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import uuid from 'uuid/v4'
+import moment from 'moment'
 import { faTrash, faVideo, faUpload } from '@fortawesome/free-solid-svg-icons'
 import firebase from 'firebase/app'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -9,6 +10,15 @@ const ClipVideo = styled.video`
     width: 150px;
     height: 100%;
 `
+
+// Change this value if you want the left + X value to be more, aka if you want the seconds to be spaced out more
+
+const basePx = 1
+const secondsFromString = (timeString) => {
+    const time = moment(timeString, 'mm:ss')
+    console.log(time.seconds())
+    return time.seconds()
+}
 
 const Track = ({ songId, id, track, clips, setShowRecorder, addNewTrack }) => {
     const videoInput = useRef(null)
@@ -85,7 +95,7 @@ const Track = ({ songId, id, track, clips, setShowRecorder, addNewTrack }) => {
                 </span>
             </div>
             <div
-                className="rounded-md border-gray-900 bg-default-soft"
+                className="rounded-md border-gray-900 bg-default-soft relative"
                 style={{ height: '100px' }}
             >
                 {clips?.length > 0 ? (
@@ -93,7 +103,11 @@ const Track = ({ songId, id, track, clips, setShowRecorder, addNewTrack }) => {
                         <ClipVideo
                             key={clip.clipId}
                             src={clip.url}
-                            className="border-white border-2 rounded-md bg-default-hard"
+                            className="border-white border-2 rounded-md bg-default-hard absolute"
+                            style={{
+                                left: `${secondsFromString(clip.startAt) +
+                                    basePx}px`,
+                            }}
                         />
                     ))
                 ) : (
