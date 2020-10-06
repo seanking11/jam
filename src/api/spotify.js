@@ -3,9 +3,10 @@ import config from '../config'
 const { clientId, clientSecret } = config.spotify
 
 class SpotifyApi {
-    constructor(accessToken = null) {
+    constructor(accessToken = null, refreshToken = null) {
         this.baseUrl = 'https://api.spotify.com/v1'
         this.accessToken = accessToken
+        this.refreshToken = refreshToken
     }
 
     async _request(url, _options) {
@@ -45,14 +46,15 @@ class SpotifyApi {
             `https://accounts.spotify.com/api/token`,
             options
         )
-        const { access_token: accessToken } = data
-        this.accessToken = accessToken
 
-        return accessToken
+        const { access_token: accessToken, refresh_token: refreshToken } = data
+        this.accessToken = accessToken
+        this.refreshToken = refreshToken
+
+        return { accessToken, refreshToken }
     }
 
     async getMe() {
-        console.log('ac', this.accessToken)
         const user = await this._request(`${this.baseUrl}/me`, {
             headers: {
                 Authorization: `Bearer ${this.accessToken}`,
