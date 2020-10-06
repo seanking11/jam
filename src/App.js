@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import firebase from 'firebase'
 
-import firebaseConfig from './config'
-
+import firebase from './firebase'
 import { Router } from './components'
 import AuthContext from './state/AuthContext'
 
@@ -11,9 +9,6 @@ function App() {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        firebase.initializeApp(firebaseConfig)
-        firebase.analytics()
-
         firebase.auth().onAuthStateChanged((user) => {
             setUser(user)
             console.log('Auth state changed, user -', user)
