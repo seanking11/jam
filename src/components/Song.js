@@ -18,6 +18,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { Track, ToggleButton, VideoGrid } from './index'
 import Player from './Player'
+import spotify from '../api/spotify'
+import cloudFunctions from '../api/cloudFunctions'
 
 const COUNTDOWN_DELAY_MS = 3000
 
@@ -188,6 +190,17 @@ const Song = ({
         }
     }
 
+    const onAttemptToLinkSpotifySong = async () => {
+        const query = song?.name
+
+        const searchResults = await spotify.search(query, 'track')
+
+        console.log(`Search Results for ${query}`, searchResults)
+
+        const spotifyTrackId = searchResults.tracks.items[0].id
+        await cloudFunctions.createSpotifyTrack({ songId: song.id, spotifyTrack: { id: spotifyTrackId }})
+    }
+
     return (
         <div className="screen bg-default text-default">
             <div id="videoGrid" className="grid grid-cols-2">
@@ -260,6 +273,8 @@ const Song = ({
                                         onSongNameChange(value)
                                     }
                                 />
+
+                                <button onClick={onAttemptToLinkSpotifySong}>Link Spotify Song</button>
                             </div>
                         </div>
 

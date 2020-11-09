@@ -63,6 +63,17 @@ class SpotifyApi {
 
         return user
     }
+
+    async search(query, type) {
+        const results = await this._request(`${this.baseUrl}/search?q=${query}&type=${type}`, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${this.accessToken}`,
+            },
+            json: true
+        })
+        console.log('results from spotify track', results)
+    }
 }
 
 export default new SpotifyApi()
