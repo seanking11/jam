@@ -5,7 +5,7 @@
     "scripts": {
         "start": "npm run build:style && react-scripts start",
         "build": "npm run build:style && react-scripts build",
-        "build:style": "tailwind build src/styles/index.css -o src/styles/tailwind.css",
+        "build:style": "tailwindcss build src/styles/index.css -o src/styles/tailwind.css",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "format": "prettier '*.js' 'src/**/*.js'",
@@ -48,9 +48,10 @@
         "uuid": "^3.4.0"
     },
     "devDependencies": {
-        "autoprefixer": "^9.7.4",
+        "autoprefixer": "^10.0.4",
+        "postcss": "^8.1.10",
         "postcss-cli": "^7.1.0",
         "prettier": "1.19.1",
-        "tailwindcss": "^1.2.0"
+        "tailwindcss": "^2.0.2"
     }
 }

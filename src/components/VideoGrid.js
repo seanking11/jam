@@ -3,7 +3,7 @@ import React from 'react'
 const VideoGrid = ({ children }) => {
     const classNamesMap = {
         1: 'grid-cols-1',
-        2: 'grid-rows-2 md:grid-rows-none',
+        2: 'grid-rows-2 xl:grid-rows-none xl:grid-cols-2',
         3: 'grid-cols-2 grid-rows-2 lg:grid-cols-3 lg:grid-rows-none',
         4: 'grid-cols-2 grid-rows-2',
         5: 'grid-cols-2 grid-rows-3 lg:grid-cols-3 lg:grid-rows-2',

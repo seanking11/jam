@@ -1,6 +1,7 @@
 const functions = require('firebase-functions')
 
 const createSpotifySocialLink = require('./createSpotifySocialLink')
+const createSpotifyTrack = require('./createSpotifyTrack')
 
 exports.createSpotifySocialLink = functions.https.onCall(
     async (data, context) => {
@@ -20,5 +21,24 @@ exports.createSpotifySocialLink = functions.https.onCall(
         }
 
         return 'Successfully created Spotify link'
+    }
+)
+
+exports.createSpotifyTrack = functions.https.onCall(
+    async (data, context) => {
+        const { songId, spotifyTrack } = data
+        const userId = context.auth.uid
+
+        try {
+            await createSpotifyTrack({
+                userId,
+                songId
+            }, spotifyTrack)
+        } catch (err) {
+            console.log('Error creating Spotify track', err)
+            return response.send(err).statusCode(400)
+        }
+
+        return 'Successfully created Spotify track'
     }
 )

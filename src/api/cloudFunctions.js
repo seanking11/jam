@@ -11,4 +11,14 @@ export default {
      * @param {Object} props.refreshToken
      */
     createSpotifySocialLink: functions.httpsCallable('createSpotifySocialLink'),
+
+    /**
+     * Create a track that is a Spotify song
+     *
+     * @param {Object} props
+     * @param {Object} props.songId
+     * @param {Object} props.trackId
+     * @param {Object} props.spotifyTrack
+     */
+    createSpotifyTrack: functions.httpsCallable('createSpotifyTrack'),
 }

@@ -86,31 +86,41 @@ const SongList = ({ user = {} }) => {
         songs,
         (song) => song.createdBy === userId
     )
-
+    console.log(yourSongs)
     return (
-        <div className="p-4">
+        <div className="mb-2">
             <div>
-                Your user ID: <code>{user.uid}</code>{' '}
-            </div>
-            <div>
-                <h4 className="text-3xl p-4 font-semibold">
-                    <span role="img" aria-label="Music note">
-                        🎵
-                    </span>{' '}
-                    Your songs
-                </h4>
+                <h2 className="text-3xl p-4 font-semibold">Your songs</h2>
                 {yourSongs ? (
-                    <SongGrid>
+                    <div className="p-4 space-y-4">
                         {yourSongs.map((song) => (
-                            <SongItem
+                            <Link
                                 key={song.name}
                                 to={`songs/${song.id}`}
-                                style={{ display: 'block' }}
+                                className="border rounded flex justify-between shadow-lg"
                             >
-                                {song.name}
-                            </SongItem>
+                                <div className="p-2 flex flex-col justify-between">
+                                    <div>
+                                        <div className="font-bold text-xl">
+                                            {song.name}
+                                        </div>
+                                        <div className="font-semibold">
+                                            {song.artist || 'Artist'}
+                                        </div>
+                                    </div>
+                                    <div className="align-self-end">
+                                        {song.length || '3:27'}
+                                    </div>
+                                </div>
+                                <div className="">
+                                    <img
+                                        src={'https://picsum.photos/360/360'}
+                                        className="w-36 h-36"
+                                    />
+                                </div>
+                            </Link>
                         ))}
-                    </SongGrid>
+                    </div>
                 ) : (
                     <div>
                         <span role="img" aria-label="Scream">
