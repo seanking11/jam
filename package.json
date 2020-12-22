@@ -45,13 +45,13 @@
         "react-scripts": "3.3.0",
         "react-video-recorder": "^3.16.1",
         "styled-components": "^4.4.1",
-        "tailwindcss": "^2.0.1",
         "uuid": "^3.4.0"
     },
     "devDependencies": {
         "autoprefixer": "^10.0.4",
         "postcss": "^8.1.10",
         "postcss-cli": "^7.1.0",
-        "prettier": "1.19.1"
+        "prettier": "1.19.1",
+        "tailwindcss": "^2.0.2"
     }
 }
