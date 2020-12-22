@@ -197,13 +197,15 @@ const Song = ({
 
         console.log(`Search Results for ${query}`, searchResults)
 
-        const spotifyTrackId = searchResults.tracks.items[0].id
-        await cloudFunctions.createSpotifyTrack({ songId: song.id, spotifyTrack: { id: spotifyTrackId }})
+        if (searchResults) {
+            const spotifyTrackId = searchResults.tracks.items[0].id
+            await cloudFunctions.createSpotifyTrack({ songId: song.id, spotifyTrack: { id: spotifyTrackId }})
+        }
     }
 
     return (
         <div className="screen bg-default text-default">
-            <div id="videoGrid" className="grid grid-cols-2">
+            <div id="videoGrid" className="grid">
                 {clips && (
                     <VideoGrid>
                         {_.map(clips, (clip, i) => (
