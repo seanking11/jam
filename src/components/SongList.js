@@ -96,7 +96,7 @@ const SongList = ({ user = {} }) => {
                         {yourSongs.map((song) => (
                             <Link
                                 key={song.name}
-                                to={`songs/${song.id}`}
+                                to={`songBuilder/${song.id}`}
                                 className="border rounded flex justify-between shadow-lg"
                             >
                                 <div className="p-2 flex flex-col justify-between">

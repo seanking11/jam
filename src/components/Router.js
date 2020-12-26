@@ -7,6 +7,7 @@ import {
     PrivateRoute,
     PublicRoute,
     Song,
+    SongBuilder,
     SongList,
     SpotifyLoginScreen,
     VideoGrid,
@@ -31,6 +32,11 @@ const Router = () => {
                 <PrivateRoute exact path="/songs" component={SongList} />
                 <PrivateRoute exact path="/grid" component={VideoGrid} />
                 <PrivateRoute exact path="/songs/:songId" component={Song} />
+                <PrivateRoute
+                    exact
+                    path="/songBuilder/:songId"
+                    component={SongBuilder}
+                />
             </Switch>
         </BrowserRouter>
     )
