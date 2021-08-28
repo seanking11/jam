@@ -30,7 +30,7 @@ const SongItem = styled(Link)`
 `
 
 const SongList = ({ user = {} }) => {
-    const userId = user?.uid
+    const userId = user?.firebaseUserUid
     const [songs, setSongs] = useState([])
     const [newSongName, setNewSongName] = useState('')
 

@@ -9,9 +9,19 @@ function App() {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        firebase.auth().onAuthStateChanged((user) => {
-            setUser(user)
+        firebase.auth().onAuthStateChanged(async (firebaseUser) => {
+            const db = firebase.firestore()
+            const userRef = await db
+                .collection('users')
+                .doc(firebaseUser.uid)
+                .get()
+            const data = userRef.data()
+            const user = {
+                firebaseUserUid: firebaseUser.uid,
+                spotifyUser: data ? data.spotifyUser : null,
+            }
             console.log('Auth state changed, user -', user)
+            setUser(user)
             setLoading(false)
         })
     }, [])
