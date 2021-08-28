@@ -5,6 +5,11 @@ import cloudFunctions from '../api/cloudFunctions'
 const OAuthCallbackScreen = () => {
     const [user, setUser] = useState(null)
 
+    const getAndSetUser = async () => {
+        const _user = await SpotifyApi.getMe()
+        setUser(_user)
+        return _user
+    }
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search)
         const authorizationCode = urlParams.get('code')
@@ -13,15 +18,14 @@ const OAuthCallbackScreen = () => {
             const tokens = await SpotifyApi.getAndSetAccessToken(
                 authorizationCode
             )
-            const _user = await SpotifyApi.getMe()
+
+            const user = await getAndSetUser()
 
             await cloudFunctions.createSpotifySocialLink({
                 accessToken: tokens.accessToken,
                 refreshToken: tokens.refreshToken,
-                spotifyUserId: _user.id,
+                spotifyUserId: user.id,
             })
-
-            setUser(_user)
         }
 
         createSpotifySocialLink()
@@ -30,6 +34,7 @@ const OAuthCallbackScreen = () => {
         <div>
             {user &&
                 `Hey ${user.display_name}, you've successfully linked your Spotify account.`}
+            <button onClick={() => getAndSetUser()}>Fetch user</button>
             <a href="/songs">Go to Songs</a>
         </div>
     )

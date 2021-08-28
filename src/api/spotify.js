@@ -12,20 +12,24 @@ class SpotifyApi {
     /**
      *
      * @param {String} url
-     * @param {Object} _options
-     * @param {Object} options.fetchOptions
-     * @param {Boolean} [options.shouldRefreshTokenOnFailure = true] On receiving a 401, get a new access token and retry
+     * @param {Object} fetchOptions
+     * @param {Boolean} [shouldRefreshTokenOnFailure = true] On receiving a 401, get a new access token and retry
      * @returns {Promise<any>}
      * @private
      */
-    async _spotifyRequest(url, options) {
+    async _spotifyRequest(
+        url,
+        fetchOptions,
+        shouldRefreshTokenOnFailure = true
+    ) {
         try {
             if (this.accessToken) {
-                return this._httpRequest(url, options.fetchOptions)
-            } else if (options.shouldRefreshTokenOnFailure) {
+                console.log('in this.accesstoken', fetchOptions)
+                return this._httpRequest(url, fetchOptions)
+            } else if (shouldRefreshTokenOnFailure) {
                 await this.refreshSpotifyToken()
 
-                return this._httpRequest(url, options.fetchOptions)
+                return this._httpRequest(url, fetchOptions)
             }
         } catch (err) {
             console.error('Error requesting the Spotify API', err)
@@ -34,11 +38,12 @@ class SpotifyApi {
         }
     }
 
-     async _httpRequest(url, fetchOptions) {
+    async _httpRequest(url, fetchOptions) {
         const _fetchOptions = {
             method: 'GET',
-            fetchOptions
+            ...fetchOptions,
         }
+
         const response = await fetch(url, _fetchOptions)
 
         return response.json()
@@ -49,16 +54,14 @@ class SpotifyApi {
      * @returns {Promise<void>}
      */
     async refreshSpotifyToken() {
-
         const results = await fetch('https://accounts.spotify.com/api/token', {
             method: 'POST',
             body: {
                 grant_type: 'refresh_token',
-                refresh_token: this.refreshToken
-            }
+                refresh_token: this.refreshToken,
+            },
         })
 
-        console.log('Results from trying to refresh spotify token', results)
         return results
     }
 
@@ -69,6 +72,7 @@ class SpotifyApi {
      * @returns {Promise<{accessToken: *, refreshToken: *}>}
      */
     async getAndSetAccessToken(authorizationCode) {
+        console.log('getting and setting access token')
         const options = {
             method: 'POST',
             body: new URLSearchParams({
@@ -97,6 +101,19 @@ class SpotifyApi {
         return { accessToken, refreshToken }
     }
 
+    async getCurrentlyPlaying() {
+        const response = await this._spotifyRequest(
+            `${this.baseUrl}/me/player/currently-playing?market=ES`,
+            {
+                headers: {
+                    Authorization: `Bearer ${this.accessToken}`,
+                },
+            }
+        )
+
+        return response
+    }
+
     async getMe() {
         const user = await this._spotifyRequest(`${this.baseUrl}/me`, {
             headers: {
@@ -108,13 +125,16 @@ class SpotifyApi {
     }
 
     async search(query, type) {
-        const results = await this._spotifyRequest(`${this.baseUrl}/search?q=${query}&type=${type}`, {
-            method: 'GET',
-            headers: {
-                Authorization: `Bearer ${this.accessToken}`,
-            },
-            json: true
-        })
+        const results = await this._spotifyRequest(
+            `${this.baseUrl}/search?q=${query}&type=${type}`,
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${this.accessToken}`,
+                },
+                json: true,
+            }
+        )
         console.log('results from spotify track', results)
 
         return results
