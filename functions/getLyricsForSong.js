@@ -47,8 +47,8 @@ const capitalizeFirstLetter = (string) => {
 
 // Example: https://genius.com/Green-day-longview-lyrics
 module.exports = async function({ title, artist }) {
-    const formattedArtist = capitalizeFirstLetter(artist.replace(' ', '-'))
-    const formattedTitle = title.replace(' ', '-')
+    const formattedArtist = capitalizeFirstLetter(artist.replace(/\s/g, '-'))
+    const formattedTitle = title.replace(/\s/g, '-')
     const geniusUrl = `https://genius.com/${formattedArtist}-${formattedTitle}-lyrics`
 
     return getLyricsFromGeniusUrl(geniusUrl)

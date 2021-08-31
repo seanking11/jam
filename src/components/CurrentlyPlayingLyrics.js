@@ -24,9 +24,9 @@ export default ({ user }) => {
                 currentlyPlayingResponse?.item?.id !==
                     currentlyPlayingSong?.item?.id
             ) {
-                const song = currentlyPlayingResponse.item
-                const title = song.name
-                const artist = song.artists[0].name
+                const song = currentlyPlayingResponse?.item
+                const title = song?.name
+                const artist = song?.artists[0]?.name
                 setCurrentlyPlayingSong(currentlyPlayingResponse)
 
                 const lyricsResponse = await cloudFunctions.getLyricsForSong({
@@ -49,8 +49,8 @@ export default ({ user }) => {
     return (
         <div className="flex h-screen">
             <div className="m-auto">
-                <h1>{currentlyPlayingSong.item.name}</h1>
-                <div>{lyrics}</div>
+                <h1 className="text-2xl">{currentlyPlayingSong.item.name}</h1>
+                <p style={{ whiteSpace: 'pre' }}>{lyrics}</p>
             </div>
         </div>
     )

@@ -13,20 +13,15 @@ export default {
      * @param {String} props.artist
      */
     getLyricsForSong: async (props) => {
-        console.log('props', props)
         const response = await fetch(
-            `${BASE_URL}/getLyricsForSong?title=${encodeURIComponent(
-                props.title
-            )}&artist=${encodeURIComponent(props.artist)}`,
+            `${BASE_URL}/getLyricsForSong?title=${props.title}&artist=${props.artist}`,
             {
                 method: 'GET',
-                // headers: { 'Content-Type': 'plain/text' },
+                headers: { 'Content-Type': 'application/json' },
             }
         )
 
         const text = await response.text()
-
-        console.log('response', text)
 
         return text
     },
@@ -40,13 +35,11 @@ export default {
      * @param {Object} props.refreshToken
      */
     createSpotifySocialLink: async (props) => {
-        console.log('props', props)
         const response = await fetch(`${BASE_URL}/createSpotifySocialLink`, {
             method: 'POST',
             body: JSON.stringify(props),
             headers: { 'Content-Type': 'application/json' },
         })
-        console.log('response', response.body)
         return response.body
     },
 

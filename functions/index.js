@@ -57,6 +57,10 @@ app.post('/createSpotifyTrack', async (request, response) => {
 app.get('/getLyricsForSong', async (request, response) => {
     const { title, artist } = request.query
 
+    if (!title || !artist) {
+        return response.send('No title or artist found')
+    }
+
     try {
         const lyrics = await getLyricsForSong({
             title,
