@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import SpotifyApi from '../api/spotify'
 import cloudFunctions from '../api/cloudFunctions'
 
-const OAuthCallbackScreen = () => {
+const OAuthCallbackScreen = ({ user: loggedInUser }) => {
     const [user, setUser] = useState(null)
 
     const getAndSetUser = async () => {
@@ -25,11 +25,12 @@ const OAuthCallbackScreen = () => {
                 accessToken: tokens.accessToken,
                 refreshToken: tokens.refreshToken,
                 spotifyUserId: user.id,
+                firebaseUserUid: loggedInUser.firebaseUserUid,
             })
         }
 
         createSpotifySocialLink()
-    }, [])
+    }, [loggedInUser])
     return (
         <div>
             {user &&

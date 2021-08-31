@@ -10,6 +10,7 @@ class SpotifyApi {
     }
 
     /**
+     * @TODO Make this retry on 401's
      *
      * @param {String} url
      * @param {Object} fetchOptions
@@ -24,7 +25,6 @@ class SpotifyApi {
     ) {
         try {
             if (this.accessToken) {
-                console.log('in this.accesstoken', fetchOptions)
                 return this._httpRequest(url, fetchOptions)
             } else if (shouldRefreshTokenOnFailure) {
                 await this.refreshSpotifyToken()
@@ -138,6 +138,17 @@ class SpotifyApi {
         console.log('results from spotify track', results)
 
         return results
+    }
+
+    /**
+     * Used to set access/refresh tokens after Spotify API has been instantiated
+     *
+     * @param {String} accessToken
+     * @param {String} refreshToken
+     */
+    setAccessToken(accessToken, refreshToken) {
+        this.accessToken = accessToken
+        this.refreshToken = refreshToken
     }
 }
 

@@ -1,4 +1,5 @@
 export { default as Clip } from './Clip'
+export { default as CurrentlyPlayingLyrics } from './CurrentlyPlayingLyrics'
 export { default as LoginScreen } from './LoginScreen'
 export { default as OAuthCallbackScreen } from './OAuthCallbackScreen'
 export { default as Player } from './Player'
