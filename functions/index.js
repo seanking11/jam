@@ -1,44 +1,77 @@
+const cors = require('cors')
+const express = require('express')
 const functions = require('firebase-functions')
 
 const createSpotifySocialLink = require('./createSpotifySocialLink')
 const createSpotifyTrack = require('./createSpotifyTrack')
+const getLyricsForSong = require('./getLyricsForSong')
 
-exports.createSpotifySocialLink = functions.https.onCall(
-    async (data, context) => {
-        const { accessToken, refreshToken, spotifyUserId } = data
-        const userId = context.auth.uid
+const app = express()
 
-        try {
-            await createSpotifySocialLink({
-                accessToken,
-                refreshToken,
-                userId,
-                spotifyUserId,
-            })
-        } catch (err) {
-            console.log('Error creating social link', err)
-            return response.send(err).statusCode(400)
-        }
+app.use(cors({ origin: true }))
+app.use(express.json())
 
-        return 'Successfully created Spotify link'
+app.post('/createSpotifySocialLink', async (request, response) => {
+    const {
+        accessToken,
+        refreshToken,
+        spotifyUserId,
+        firebaseUserUid,
+    } = request.body
+
+    try {
+        await createSpotifySocialLink({
+            accessToken,
+            refreshToken,
+            userId: firebaseUserUid,
+            spotifyUserId,
+        })
+
+        return response.status(201).send('Successfully created Spotify link')
+    } catch (err) {
+        console.log('Error creating social link', err)
+        return response.send(err)
     }
-)
+})
 
-exports.createSpotifyTrack = functions.https.onCall(
-    async (data, context) => {
-        const { songId, spotifyTrack } = data
-        const userId = context.auth.uid
+app.post('/createSpotifyTrack', async (request, response) => {
+    const { songId, spotifyTrack } = request.body
+    const userId = response.auth.uid
 
-        try {
-            await createSpotifyTrack({
+    try {
+        await createSpotifyTrack(
+            {
                 userId,
-                songId
-            }, spotifyTrack)
-        } catch (err) {
-            console.log('Error creating Spotify track', err)
-            return response.send(err).statusCode(400)
-        }
+                songId,
+            },
+            spotifyTrack
+        )
 
-        return 'Successfully created Spotify track'
+        return response.send('Successfully created Spotify track')
+    } catch (err) {
+        console.log('Error creating Spotify track', err)
+        return response.send(err)
     }
-)
+})
+
+app.get('/getLyricsForSong', async (request, response) => {
+    const { title, artist } = request.query
+
+    if (!title || !artist) {
+        return response.send('No title or artist found')
+    }
+
+    try {
+        const lyrics = await getLyricsForSong({
+            title,
+            artist,
+        })
+
+        return response.send(lyrics)
+    } catch (err) {
+        console.log('Error getting lyrics', err)
+        return response.send(err)
+    }
+})
+
+exports.api = functions.https.onRequest(app)

@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import _ from 'lodash'
 import styled from 'styled-components'
 
+import SpotifyLoginButton from './SpotifyLoginButton'
+
 const SongGrid = styled.div`
     display: grid;
     padding: 15px;
@@ -30,7 +32,7 @@ const SongItem = styled(Link)`
 `
 
 const SongList = ({ user = {} }) => {
-    const userId = user?.uid
+    const userId = user?.firebaseUserUid
     const [songs, setSongs] = useState([])
     const [newSongName, setNewSongName] = useState('')
 
@@ -86,11 +88,16 @@ const SongList = ({ user = {} }) => {
         songs,
         (song) => song.createdBy === userId
     )
-    console.log(yourSongs)
+
     return (
         <div className="mb-2">
             <div>
-                <h2 className="text-3xl p-4 font-semibold">Your songs</h2>
+                <div className="flex justify-between">
+                    <h2 className="text-3xl p-4 font-semibold">Your songs</h2>
+                    <SpotifyLoginButton className="text-2xl p-4 font-semibold flex align-middle">
+                        Currently Listening
+                    </SpotifyLoginButton>
+                </div>
                 {yourSongs ? (
                     <div className="p-4 space-y-4">
                         {yourSongs.map((song) => (

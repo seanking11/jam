@@ -10,7 +10,7 @@ const PrivateRoute = ({ component: Component, path, user, ...rest }) => {
         <Route
             {...rest}
             render={(props) =>
-                authContext?.user?.uid ? (
+                authContext?.user?.firebaseUserUid ? (
                     <Component user={authContext?.user} {...props} />
                 ) : (
                     <Redirect to="/login" />
