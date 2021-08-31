@@ -36,7 +36,10 @@ const OAuthCallbackScreen = ({ user: loggedInUser }) => {
             {user &&
                 `Hey ${user.display_name}, you've successfully linked your Spotify account.`}
             <button onClick={() => getAndSetUser()}>Fetch user</button>
-            <a href="/songs">Go to Songs</a>
+            <br />
+            <a href="/currently-playing">
+                Get the lyrics of currently playing song
+            </a>
         </div>
     )
 }
