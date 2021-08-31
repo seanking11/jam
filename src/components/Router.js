@@ -9,7 +9,7 @@ import {
     PublicRoute,
     Song,
     SongList,
-    SpotifyLoginScreen,
+    SpotifyLoginButton,
     VideoGrid,
 } from './'
 
@@ -22,7 +22,7 @@ const Router = () => {
                 <PrivateRoute
                     exact
                     path="/spotify"
-                    component={SpotifyLoginScreen}
+                    component={SpotifyLoginButton}
                 />
                 <PrivateRoute
                     path="/oauth/callback"

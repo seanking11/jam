@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import { Redirect } from 'react-router'
+
 import SpotifyApi from '../api/spotify'
 import cloudFunctions from '../api/cloudFunctions'
 
 const OAuthCallbackScreen = ({ user: loggedInUser }) => {
     const [user, setUser] = useState(null)
+    const [doneSavingSocialLink, setDoneSavingSocialLink] = useState(false)
 
     const getAndSetUser = async () => {
         const _user = await SpotifyApi.getMe()
@@ -27,6 +30,8 @@ const OAuthCallbackScreen = ({ user: loggedInUser }) => {
                 spotifyUserId: user.id,
                 firebaseUserUid: loggedInUser.firebaseUserUid,
             })
+
+            setDoneSavingSocialLink(true)
         }
 
         createSpotifySocialLink()
@@ -34,12 +39,17 @@ const OAuthCallbackScreen = ({ user: loggedInUser }) => {
     return (
         <div>
             {user &&
-                `Hey ${user.display_name}, you've successfully linked your Spotify account.`}
-            <button onClick={() => getAndSetUser()}>Fetch user</button>
-            <br />
-            <a href="/spotify/currently-playing">
-                Get the lyrics of currently playing song
-            </a>
+                `Hey${
+                    user.display_name ? ' ' + user.display_name : ''
+                }, you've successfully linked your Spotify account.`}
+
+            {doneSavingSocialLink && (
+                <Redirect
+                    to={{
+                        pathname: '/spotify/currently-playing',
+                    }}
+                />
+            )}
         </div>
     )
 }

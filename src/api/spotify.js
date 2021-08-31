@@ -78,7 +78,8 @@ class SpotifyApi {
             body: new URLSearchParams({
                 grant_type: 'authorization_code',
                 code: authorizationCode,
-                redirect_uri: 'http://localhost:3000/oauth/callback',
+                redirect_uri: 'https://jams-b177f.web.app/oauth/callback',
+                // redirect_uri: 'http://localhost:3000/oauth/callback',
             }),
             headers: {
                 Authorization: `Basic ${new Buffer(

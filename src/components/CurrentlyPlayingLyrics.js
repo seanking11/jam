@@ -34,8 +34,6 @@ export default ({ user }) => {
                     artist,
                 })
 
-                console.log('lyrics', lyricsResponse)
-
                 setLyrics(lyricsResponse)
             }
         }, 3000)
