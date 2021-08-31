@@ -28,6 +28,7 @@ export default ({ user }) => {
                 const title = song?.name
                 const artist = song?.artists[0]?.name
                 setCurrentlyPlayingSong(currentlyPlayingResponse)
+                setLyrics('')
 
                 const lyricsResponse = await cloudFunctions.getLyricsForSong({
                     title,
@@ -44,11 +45,23 @@ export default ({ user }) => {
     if (!currentlyPlayingSong) {
         return <div>Loading ...</div>
     }
+
+    const title = `${currentlyPlayingSong?.item?.name} - ${currentlyPlayingSong?.item?.artists[0].name}`
+    // const formattedLyrics = lyrics
+    const formattedLyrics = lyrics.split('\n').map((i) => {
+        // Multiple \n characters in a row will need a <br>
+        if (i === '') {
+            return <br />
+        }
+
+        return <p>{i}</p>
+    })
+
     return (
-        <div className="flex h-screen">
+        <div className="flex h-screen overflow-scroll">
             <div className="m-auto">
-                <h1 className="text-2xl">{currentlyPlayingSong.item.name}</h1>
-                <p style={{ whiteSpace: 'pre' }}>{lyrics}</p>
+                <h1 className="text-3xl">{title}</h1>
+                {lyrics && formattedLyrics}
             </div>
         </div>
     )
