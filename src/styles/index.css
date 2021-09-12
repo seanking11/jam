@@ -111,12 +111,7 @@ code {
 }
 
 .seekbar-line {
-    position: absolute;
-    width: 1px;
-    height: 500px;
     background-color: var(--color-bg-primary);
-    left: 50%;
-    right: 50%;
 }
 
 /*

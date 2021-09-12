@@ -199,7 +199,10 @@ const Song = ({
 
         if (searchResults) {
             const spotifyTrackId = searchResults.tracks.items[0].id
-            await cloudFunctions.createSpotifyTrack({ songId: song.id, spotifyTrack: { id: spotifyTrackId }})
+            await cloudFunctions.createSpotifyTrack({
+                songId: song.id,
+                spotifyTrack: { id: spotifyTrackId },
+            })
         }
     }
 
@@ -276,7 +279,9 @@ const Song = ({
                                     }
                                 />
 
-                                <button onClick={onAttemptToLinkSpotifySong}>Link Spotify Song</button>
+                                <button onClick={onAttemptToLinkSpotifySong}>
+                                    Link Spotify Song
+                                </button>
                             </div>
                         </div>
 
