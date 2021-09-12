@@ -1,6 +1,7 @@
 import config from '../config'
 
 const { clientId, clientSecret } = config.spotify
+const { apiUrl } = config.firebase
 
 class SpotifyApi {
     constructor(accessToken = null, refreshToken = null) {
@@ -78,8 +79,7 @@ class SpotifyApi {
             body: new URLSearchParams({
                 grant_type: 'authorization_code',
                 code: authorizationCode,
-                redirect_uri: 'https://jams-b177f.web.app/oauth/callback',
-                // redirect_uri: 'http://localhost:3000/oauth/callback',
+                redirect_uri: `${apiUrl}/oauth/callback`,
             }),
             headers: {
                 Authorization: `Basic ${new Buffer(

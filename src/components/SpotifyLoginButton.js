@@ -1,11 +1,11 @@
 import React from 'react'
 import SpotifyLogo from '../assets/spotify.svg'
+import config from '../config'
 
 export const authEndpoint = 'https://accounts.spotify.com/authorize'
 // Replace with your app's client ID, redirect URI and desired scopes
 const clientId = '16e1d334a4574a7396b5cb6fd7f36f07'
-const redirectUri = 'https://jams-b177f.web.app/oauth/callback'
-// const redirectUri = 'http://localhost:3000/oauth/callback'
+const redirectUri = `${config.firebase.apiUrl}/oauth/callback`
 const scopes = ['user-read-currently-playing', 'user-read-playback-state']
 
 const SpotifyLoginButton = ({ children }) => {
