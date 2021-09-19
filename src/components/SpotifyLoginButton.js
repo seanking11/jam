@@ -6,7 +6,11 @@ export const authEndpoint = 'https://accounts.spotify.com/authorize'
 // Replace with your app's client ID, redirect URI and desired scopes
 const clientId = '16e1d334a4574a7396b5cb6fd7f36f07'
 const redirectUri = `${config.firebase.apiUrl}/oauth/callback`
-const scopes = ['user-read-currently-playing', 'user-read-playback-state']
+const scopes = [
+    'user-read-currently-playing',
+    'user-read-playback-state',
+    'user-modify-playback-state',
+]
 
 const SpotifyLoginButton = ({ children }) => {
     return (

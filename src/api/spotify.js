@@ -125,6 +125,42 @@ class SpotifyApi {
         return user
     }
 
+    async next() {
+        return this._spotifyRequest(`${this.baseUrl}/me/player/next`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${this.accessToken}`,
+            },
+        })
+    }
+
+    async previous() {
+        return this._spotifyRequest(`${this.baseUrl}/me/player/previous`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${this.accessToken}`,
+            },
+        })
+    }
+
+    async pause() {
+        return this._spotifyRequest(`${this.baseUrl}/me/player/pause`, {
+            method: 'PUT',
+            headers: {
+                Authorization: `Bearer ${this.accessToken}`,
+            },
+        })
+    }
+
+    async play() {
+        return this._spotifyRequest(`${this.baseUrl}/me/player/play`, {
+            method: 'PUT',
+            headers: {
+                Authorization: `Bearer ${this.accessToken}`,
+            },
+        })
+    }
+
     async search(query, type) {
         const results = await this._spotifyRequest(
             `${this.baseUrl}/search?q=${query}&type=${type}`,
